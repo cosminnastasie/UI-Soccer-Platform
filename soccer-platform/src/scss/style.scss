@@ -11,18 +11,19 @@
 // 3.1 Overview
 
     .overview-layout{
-        background-color: #00c0ae;
+        height: 100vh;
+        // background-color: #00c0ae;
         padding-top: 60px;
         padding-left: 40px;
         padding-right: 40px;
         min-height: 100vh;
         color: #fff;
-        background-image: url("../images/bg1.jpg");
         background-repeat: no-repeat;
         background-size: cover;
         background-position: top;
 
     }
+
 // 3.2 Details
 
 
@@ -39,8 +40,9 @@
         li{
             padding: 6px 12px;
             a{
-                color: #fff;
                 text-decoration: none;
+                color: #fff;
+
             }
         }
     }
@@ -60,7 +62,11 @@
     color: white;
 }
 
+// 4. Grid
 
+    .grid-height{
+        height: calc(100vh - 181px);
+    }
 
 
 
@@ -71,3 +77,28 @@
 
 
 // 9. Media queries
+
+
+@media only screen and (max-width: 768px) {
+    .overview-layout{
+        background-image: url("../images/bg1.jpg");
+    }
+
+    
+    .menu-sidebar{
+        ul{
+            li{
+                a{
+                    color: #fff;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .overview-layout{
+        background-image: url("../images/bg2.jpg");
+    }
+}
+
