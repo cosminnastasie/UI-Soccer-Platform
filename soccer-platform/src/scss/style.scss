@@ -1,7 +1,73 @@
+*{
+    box-sizing: border-box;
+}
+
+// 1. Classes
+
+// 2. Elements
+
+// 3. Layouts
+
+// 3.1 Overview
+
+    .overview-layout{
+        background-color: #00c0ae;
+        padding-top: 60px;
+        padding-left: 40px;
+        padding-right: 40px;
+        min-height: 100vh;
+        color: #fff;
+        background-image: url("../images/bg1.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: top;
+
+    }
+// 3.2 Details
+
+
+// Menu
+
+.menu-sidebar{
+    position: absolute;
+    top: 0;
+    left: 0;
+    ul{
+        margin-left: -12px;
+        list-style-type: none;
+        display: flex;
+        li{
+            padding: 6px 12px;
+            a{
+                color: #fff;
+                text-decoration: none;
+            }
+        }
+    }
+}
+
 .App-header {
     background-image: url("../images/stadium.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: bottom;
-
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
 }
+
+
+
+
+
+
+
+
+
+
+
+// 9. Media queries
