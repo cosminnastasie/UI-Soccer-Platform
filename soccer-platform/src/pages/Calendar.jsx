@@ -1,25 +1,7 @@
 import React from 'react';
-import {
-  Card, Elevation,
-  Button,
-  ButtonProps,
-  Code,
-  Dialog,
-  DialogStep,
-  Divider,
-  FormGroup,
-  H5,
-  MultistepDialog,
-  MultistepDialogNavPosition,
-  NumericInput,
-  Radio,
-  RadioGroup,
-  SegmentedControl,
-  Switch,
-  Icon
-} from "@blueprintjs/core";
+import { Card, Elevation, Icon} from "@blueprintjs/core";
 import SoccerGameDialog from '../components/SoccerGameDialog'
-import { getData, postData } from './../requests/requests';
+import { getData } from './../requests/requests';
 import { URLS } from './../requests/constants'
 
 function isSameDay(date1Str, date2Str, type) {
@@ -46,7 +28,6 @@ class Calendar extends React.Component {
 
   getEvents = async () => {
     getData(URLS.games).then(result => {
-     console.log('GET DATA......');
       this.setState({ players: result })
       let results = result?.map(i => { i.eventType = 'game'; return i; });
       this.setState({ events: results })
@@ -149,7 +130,7 @@ class Calendar extends React.Component {
         onClick={() => {
           if (event.length) {
             this.setState(
-              { isAddEditEventOpen: true, activeDate: day, activeDay: event?.[0] }, () => { console.log(this.state.activeDay); }
+              { isAddEditEventOpen: true, activeDate: day, activeDay: event?.[0]}
             )
           } else {
             this.setState(
@@ -178,7 +159,7 @@ class Calendar extends React.Component {
     const { calendarDays, currentDate } = this.state;
     console.log(this.state);
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    var finalButtonProps = {}
+
     return (
       <div className="overview-layout ss-full-width">
         <div className="calendar-container">
@@ -212,13 +193,6 @@ class Calendar extends React.Component {
       </div>
     );
   }
-}
-
-function SelectPanel() {
-  return <div>Panel content</div>
-}
-function ConfirmPanel() {
-  return <div>Panel content</div>
 }
 
 export default Calendar;
