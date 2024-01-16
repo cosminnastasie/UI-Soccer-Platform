@@ -2,6 +2,8 @@ import React from 'react'
 import { AgGridReact } from 'ag-grid-react'; // React Grid Logic
 import "ag-grid-community/styles/ag-grid.css"; // Core CSS
 import "ag-grid-community/styles/ag-theme-quartz.css"; // Theme
+import { getData } from './../requests/requests';
+import {URLS} from './../requests/constants'
 
 class Players extends React.Component {
   constructor(props) {
@@ -13,17 +15,10 @@ class Players extends React.Component {
   componentDidMount() {
     console.log('Get players    ');
 
-    var requestOptions = {
-      method: 'GET',
-      redirect: 'follow'
-    };
-
-    fetch("https://api-soccer-platform.cosminnastasie.workers.dev/players", requestOptions)
-      .then(response => response.json())
-      .then(result => {
-        this.setState({ players: result })
-      })
-      .catch(error => console.log('error', error));
+    getData(URLS.players).then(result => {
+      console.log('RESULT NEW');
+      this.setState({ players: result })
+    });
   }
 
   colDefs = [
@@ -40,7 +35,7 @@ class Players extends React.Component {
         <h1>Players</h1>
         {
           this.state?.players &&
-           <div class="grid-height">
+           <div className="grid-height">
                   <AgGridReact rowData={this.state?.players} columnDefs={this.colDefs} />
           </div>
         }
