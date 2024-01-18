@@ -3,7 +3,7 @@ import { AgGridReact } from 'ag-grid-react'; // React Grid Logic
 import "ag-grid-community/styles/ag-grid.css"; // Core CSS
 import "ag-grid-community/styles/ag-theme-quartz.css"; // Theme
 import { getData } from './../requests/requests';
-import {URLS} from './../requests/constants'
+import { URLS } from './../requests/constants'
 
 class Players extends React.Component {
   constructor(props) {
@@ -11,22 +11,48 @@ class Players extends React.Component {
     this.state = {
 
     }
-  } 
+  }
   componentDidMount() {
     console.log('Get players    ');
 
     getData(URLS.players).then(result => {
       console.log('RESULT NEW');
-      this.setState({ players: result })
+
+      this.setState({
+        players: result.sort(function (a, b) {
+          return parseInt(a.YearOfBirth) - parseInt(b.YearOfBirth);
+        })
+      })
     });
   }
 
   colDefs = [
-    {field: 'Name'},
-    {field: 'Position1'},
-    {field: 'YearOfBirth'},
-    {field: 'Number'},
+    { headerName: "Nr. ", valueGetter: "node.rowIndex + 1", width: 50 },
+    { field: 'Name' },
+    { field: 'Position1' },
+    { field: 'YearOfBirth' },
+    { field: 'Number' },
   ]
+
+  gridOptions = {
+    // ... other grid options ...
+
+    getRowStyle: (params) => {
+      if (parseInt(params.data.YearOfBirth) === 2004) {
+        return { color: 'darkcyan' };
+      } else if (parseInt(params.data.YearOfBirth) === 2005) {
+        return { color: 'deepskyblue' };
+      } else if (parseInt(params.data.YearOfBirth) > 2005) {
+        // return { color: 'khaki' };
+        return { color: 'mediumaquamarine' };
+        
+      } else {
+        return { color: 'floralwhite' };
+      }
+    }
+
+    // ... column definitions, rowData, etc. ...
+  };
 
   render() {
     console.log('state', this.state);
@@ -35,8 +61,8 @@ class Players extends React.Component {
         <h1>Players</h1>
         {
           this.state?.players &&
-           <div className="grid-height">
-                  <AgGridReact rowData={this.state?.players} columnDefs={this.colDefs} />
+          <div className="grid-height">
+            <AgGridReact rowData={this.state?.players} columnDefs={this.colDefs} gridOptions={this.gridOptions} />
           </div>
         }
       </div>

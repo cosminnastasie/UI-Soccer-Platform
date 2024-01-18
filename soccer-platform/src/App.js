@@ -15,7 +15,8 @@ class App extends React.Component {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
+            {/* <Route index element={<Home />} /> */}
+            <Route index element={<Calendar />} />
             <Route path="*" element={<div>404</div>} />
             <Route path="/players" element={<Players />} />
             <Route path="/games" element={<Games />} />

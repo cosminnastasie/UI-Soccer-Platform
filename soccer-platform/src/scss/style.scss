@@ -3,6 +3,26 @@
 }
 
 // 1. Classes
+// 2. Elements
+
+// 1. Classes
+
+.flex-center {
+    display: flex;
+     align-items: center;
+     justify-content: center;
+}
+
+.not-al-box{
+    opacity: .6;
+    cursor: not-allowed !important;
+    pointer-events: none;
+}
+
+.font-style-10{
+    font-size: 14px;
+    margin: 4px 0;
+}
 
 // 2. Elements
 
@@ -61,7 +81,7 @@
     // background-color: #D0EFFF;
     color: #4A5568; /* Dark Slate Gray for the text */
     padding: 40px;
-
+    // background-image: url("../images/ball.jpg");
     .bp5-input-group .bp5-input{
         box-shadow: none !important;
     }
@@ -110,10 +130,129 @@
     margin-bottom: 15px;
 }
 
-
 .soccer-game-dialog .bp3-dialog-close-button {
     color: #D0EFFF;
 }
+
+// Info popup
+
+.info-dialog.bp5-dialog{
+    width: 650px;
+    .bp5-dialog-header{
+        background: #fff !important;
+        height: 60px;
+
+        h6 {
+            color: #1c2127;
+        }
+        .bp5-dialog-close-button svg {
+            fill: #1c2127 !important;
+        }
+
+    }
+
+    .info-box-body{
+        padding: 40px;
+    }
+    
+    .info-box-no-info{
+        display: flex;
+        width: 100%;
+        height: 100%;
+        flex: 1 1;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        color: midnightblue;
+        font-size: 13px;
+        margin-bottom: 50px;
+        font-weight: 500;
+    }
+
+    .event-header{
+        font-weight: 600;
+        font-size: 19px;
+    }
+
+    .game-teams-label{
+        display: flex;
+        margin: 8px 0 6px 0;
+        font-size: 16px;
+        color: cadetblue;
+        font-weight: 600;
+    }
+}
+
+
+
+
+
+// Dropdown icons
+.add-event-row {
+    position: relative;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    color: orangered;
+    font-size: 14px;
+    font-weight: 500;
+    height: 70px;
+    width: 200px;
+    .icon {
+        position: absolute;
+        bottom: -20px;
+        width: 40px;
+        height: 40px;
+        opacity: 0;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+
+        > div{
+            color: midnightblue;
+            font-size: 12px;
+        }
+
+        svg{
+            margin-top: 6px;
+            width: 20px !important;
+            height: 20px;
+            fill: midnightblue !important;
+        }
+    }
+    
+    .left-icon {
+        left: 10px;
+        bottom: -20px;
+        transform: translateX(70px) translateY(-14px);
+        opacity: 0;
+        transition: all 0.3s ease;
+        &.show{
+            transform:  translateX(104px) translateY(0px);
+            opacity: 1;
+        }
+    }    
+    .right-icon {
+        left: 10px;
+        bottom: -20px;
+        transform: translateX(50px) translateY(-14px);
+        opacity: 0;
+        transition: all 0.3s ease;
+        &.show{
+            transform:  translateX(38px) translateY(0px);
+            opacity: 1;
+        }
+    }
+    
+    // .show {
+    //     opacity: 1;
+    //     transform: translateY(0px);
+    // }
+}
+
+
 
 
 // 3. Layouts
@@ -261,6 +400,7 @@
             justify-content: flex-start;
             align-items: center;
         }
+
         &.highlight-w-day{
             background-color: #3B4252;
             .bp3-heading {
@@ -269,17 +409,21 @@
             .card-description {
                 color: #E5E9F0 ;
             }
+            // .date-top-right{
+            //     color: #fb6c3f; 
+            // }
         }
+
         &.highlight-today{
-            background-color: #D0EFFF;
+            background-color: #D0EFFF !important;
             .bp3-heading{
-                color: orangered ;
+                color: orangered !important;
             }
             .date-top-right{
-                color: #003366; 
+                color: #003366 !important; 
             }
             .card-description {
-                color: #003366; 
+                color: #003366 !important; 
             }
         }
 
@@ -294,7 +438,19 @@
             .date-top-right{
                 color: floralwhite; 
             }
+        }
 
+        &.highlight-training{
+            background-color: #5D8AA8;
+            .bp3-heading {
+                color: #A5D6A7 /* Dark Gray for headings */
+            }
+            .card-description {
+                color: #E0E0E0; /* Gold for descriptions */
+            }
+            .date-top-right{
+                color: floralwhite; 
+            }
         }
     }
     svg[data-icon]{
@@ -404,8 +560,9 @@
                 .date-top-right{
                     width: 40px;
                     font-size: 12px;
-                    white-space: nowrap;       
-                    padding-top: 2px;        
+                    white-space: nowrap;
+                    padding-top: 1px; 
+                    font-weight: 500;       
                 }
             }
     
@@ -435,6 +592,11 @@
     
     .calendar-day:hover {
         transform: scale(1.05);
+    }
+
+    .info-dialog.bp5-dialog{
+        width: 650px;
+        min-height: 400px;
     }
 
 }

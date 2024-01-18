@@ -19,3 +19,16 @@ export function convertDateToYYYYMMDD(dateString) {
         return null; // or handle error as appropriate
     }
 }
+
+export function getDayOfWeek(dateStr) {
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+    // Crearea unui nou obiect Date din șirul de dată primit
+    const date = new Date(dateStr);
+
+    // Obținerea indexului zilei săptămânii (0 = Sunday, 1 = Monday, etc.)
+    const dayIndex = date.getDay();
+
+    // Returnarea numelui zilei săptămânii
+    return days[dayIndex];
+}

@@ -5,14 +5,44 @@ import { getData } from './../requests/requests';
 import { URLS } from './../requests/constants'
 
 function isSameDay(date1Str, date2Str, type) {
-  let fix = date1Str.length === 10 ? 0 : 1;
+
+  let fix = date1Str.length === 10 ? 0 : 0;
 
   const date1 = new Date(date1Str);
   const date2 = new Date(date2Str);
-
+  // if(type === true){
+  //   console.log('..............', {
+  //     fix,
+  //     LEN: date1Str.length,
+  //     date1Str, date2Str,
+  //     1: date1.getFullYear(), d2: date2.getFullYear(),
+  //     M1: date1.getMonth(), M2: date2.getMonth(),
+  //     D1: date1.getDate() - fix, D2: date2.getDate()
+  //   });
+  // }
   return date1.getFullYear() === date2.getFullYear() &&
     date1.getMonth() === date2.getMonth() &&
     date1.getDate() - fix === date2.getDate();
+}
+
+function filterEventsByDate(events, dateString) {
+  // Parse the provided date string and extract year, month, and day
+  const givenDate = new Date(dateString);
+  const givenYear = givenDate.getFullYear();
+  const givenMonth = givenDate.getMonth(); // Note: getMonth() returns 0 for January, 1 for February, etc.
+  const givenDay = givenDate.getDate();
+
+  // Filter the events
+  return events.filter(event => {
+      // Parse the event date string
+      const eventDate = new Date(event.Date);
+      const eventYear = eventDate.getFullYear();
+      const eventMonth = eventDate.getMonth();
+      const eventDay = eventDate.getDate();
+
+      // Compare year, month, and day
+      return eventYear === givenYear && eventMonth === givenMonth && eventDay === givenDay;
+  });
 }
 const TEAM = 'U. Bascov'
 
@@ -27,11 +57,33 @@ class Calendar extends React.Component {
   }
 
   getEvents = async () => {
-    getData(URLS.games).then(result => {
-      this.setState({ players: result })
-      let results = result?.map(i => { i.eventType = 'game'; return i; });
-      this.setState({ events: results })
+    getData(URLS.events).then(result => {
+        this.setState({ events: result })
+
     });
+    // getData(URLS.games).then(result => {
+    //   let results = result?.map(i => { i.eventType = 'game'; return i; });
+    //   let events = [...this.state.events];
+    //   console.log(1, events);
+    //   events = events.length ? events.filter(e=>e.eventType !== 'game'): [];
+    //   results.forEach(r=>{
+    //     events.push(r);
+    //   })
+    //   this.setState({ events: results })
+    // });
+
+    // getData(URLS.trainings).then(result => {
+    //   let results = result?.map(i => { i.eventType = 'training'; return i; });
+    //   let events = [...this.state.events];
+    //   console.log(2, events);
+    //   events = events.length ? events.filter(e=>e.eventType !== 'training'): [];
+    //   results.forEach(r=>{
+    //     events.push(r);
+    //   })
+      
+      
+      // this.setState({ events: results })
+    // });
   }
 
   componentDidMount() {
@@ -90,41 +142,55 @@ class Calendar extends React.Component {
     const dayOfMonth = day ? day.getDate() : '';
     const dayOfWeek = day ? day.toLocaleString('en-us', { weekday: 'short' }) : '';
     let event = this.state.events.filter(g => {
-      if (g.IdGames === 3) {
-        isSameDay(g.Date, day, 'checkForEvents')
-      }
       return isSameDay(g.Date, day)
     })
-
     
-    let title = `No event`;
-    let description = 'Day off!';
-
-    if (event.length) {
-      // title = `${event[0].Type} game`;
-      title = `Game`;
-      if (event) {
-        description = event[0].HomeAway === 'Away'
-          ? event[0].Competitor + ' - ' + TEAM
-          : TEAM + ' - ' + event[0].Competitor
-      }
-    }
-
-    // Example title and description for each day
+    //  Box classes
 
     let boxClass = 'calendar-day';
 
-    if (isSameDay(this.state.currentDate, day, 0)) {
+    let today = new Date();
+    if (isSameDay(today, day)) {
+      isSameDay(today, day, true)
       boxClass += " highlight-today"
     }
+
     if (['Sat', 'Sun'].includes(dayOfWeek)) {
       boxClass += ' highlight-w-day ';
     }
 
     if (event.length) {
-      boxClass += ' highlight-game'
+    }
+    if(day === null){
+      boxClass += ' not-al-box';
     }
 
+    let title = `Day off`;
+    let description = '';
+
+    if(event.length && event?.[0]?.ActivityType === 'Game'){
+        console.log(event);
+        title = `Game`;
+        description = event[0].HomeAway === 'Away'
+        ? event[0].Competitor + ' - ' + TEAM
+        : TEAM + ' - ' + event[0].Competitor
+        boxClass += " highlight-game";
+    }
+    
+    if(event.length && event?.[0]?.ActivityType === 'Training'){
+        console.log(event);
+        title = `Training`;
+        description = (event[0].Hour? `Hour: ${event[0].Hour}`: 'No info') + ' ' + event[0].Location;
+        boxClass += " highlight-training";
+    }
+
+
+
+
+    var descriptionClass = 'card-description'
+    if(description === ''){
+      description = 'Add event'
+    }
     return (
       <Card className={boxClass} interactive={true} elevation={Elevation.TWO}
         onClick={() => {
@@ -134,7 +200,7 @@ class Calendar extends React.Component {
             )
           } else {
             this.setState(
-              { isAddEditEventOpen: true, activeDate: day}, () => { console.log(this.state.activeDay); }
+              { isAddEditEventOpen: true, activeDate: day}, () => {}
             )
           }
         }}
@@ -143,7 +209,7 @@ class Calendar extends React.Component {
           <div className="bp3-heading">{title}</div>
           <div className='date-top-right'>{dayOfWeek}, {dayOfMonth}</div>
         </div>
-        <div className='card-description' >{description}</div>
+        <div className={descriptionClass} >{description}</div>
 
 
 
@@ -183,11 +249,12 @@ class Calendar extends React.Component {
 
         {
           this.state.isAddEditEventOpen &&
-          <SoccerGameDialog
-            isOpen={this.state.isAddEditEventOpen}
-            handleClose={() => { this.setState({ isSaving: true, isAddEditEventOpen: false }, () => this.getEvents()) }}
-            activeDate={this.state.activeDate}
-          />
+            <SoccerGameDialog
+              isOpen={this.state.isAddEditEventOpen}
+              handleClose={() => { this.setState({ isSaving: true, isAddEditEventOpen: false }, () => this.getEvents()) }}
+              activeDate={this.state.activeDate}
+              events={filterEventsByDate(this.state.events, this.state.activeDate)}
+            />
         }
 
       </div>
