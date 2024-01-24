@@ -1,7 +1,8 @@
 import React from 'react';
 import { Card, Elevation, Icon} from "@blueprintjs/core";
 import SoccerGameDialog from '../components/SoccerGameDialog'
-import { getData } from './../requests/requests';
+import { getData,  } from './../requests/requests';
+import { areDatesInSameMonthAndYear } from './../requests/helpers';
 import { URLS } from './../requests/constants'
 
 function isSameDay(date1Str, date2Str, type) {
@@ -50,7 +51,7 @@ class Calendar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentDate: new Date(),
+      calendarDate: new Date(),
       calendarDays: [],
       events: [],
     };
@@ -94,51 +95,92 @@ class Calendar extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.currentDate.getMonth() !== this.state.currentDate.getMonth()) {
+    if (prevState.calendarDate.getMonth() !== this.state.calendarDate.getMonth()) {
       this.generateCalendar();
     }
   }
 
+  // generateCalendar1 = () => {
+  //   const { calendarDate } = this.state;
+  //   const year = calendarDate.getFullYear();
+  //   const month = calendarDate.getMonth();
+
+  //   // First day of the month
+  //   const firstDayOfMonth = new Date(year, month, 1);
+  //   // Adjusting so that Monday is the first day of the week
+  //   const firstDayOfWeek = (firstDayOfMonth.getDay() + 6) % 7;
+  //   const daysInThisMonth = new Date(year, month + 1, 0).getDate();
+
+  //   let calendarDays = [];
+
+  //   // Fill in days from the previous month
+  //   for (let i = 0; i < firstDayOfWeek; i++) {
+  //     calendarDays.push(null);
+  //   }
+
+  //   // Fill in days for the current month
+  //   for (let day = 1; day <= daysInThisMonth; day++) {
+  //     calendarDays.push(new Date(year, month, day));
+  //   }
+
+  //   this.setState({ calendarDays });
+  // };
+
   generateCalendar = () => {
-    const { currentDate } = this.state;
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth();
+    const { calendarDate } = this.state;
+    const year = calendarDate.getFullYear();
+    const month = calendarDate.getMonth();
 
     // First day of the month
     const firstDayOfMonth = new Date(year, month, 1);
     // Adjusting so that Monday is the first day of the week
     const firstDayOfWeek = (firstDayOfMonth.getDay() + 6) % 7;
+
     const daysInThisMonth = new Date(year, month + 1, 0).getDate();
+    const daysInPreviousMonth = new Date(year, month, 0).getDate();
 
     let calendarDays = [];
 
     // Fill in days from the previous month
-    for (let i = 0; i < firstDayOfWeek; i++) {
-      calendarDays.push(null);
+    for (let i = firstDayOfWeek; i > 0; i--) {
+        calendarDays.push(new Date(year, month - 1, daysInPreviousMonth - i + 1));
     }
 
     // Fill in days for the current month
     for (let day = 1; day <= daysInThisMonth; day++) {
-      calendarDays.push(new Date(year, month, day));
+        calendarDays.push(new Date(year, month, day));
+    }
+
+    // Fill in days from the next month if needed
+    let nextMonthDay = 1;
+    while (calendarDays.length < 35) {
+        calendarDays.push(new Date(year, month + 1, nextMonthDay));
+        nextMonthDay++;
     }
 
     this.setState({ calendarDays });
-  };
+};
+
+
+
+
+
+
 
   goToPreviousMonth = () => {
     this.setState(prevState => ({
-      currentDate: new Date(prevState.currentDate.getFullYear(), prevState.currentDate.getMonth() - 1, 1)
+      calendarDate: new Date(prevState.calendarDate.getFullYear(), prevState.calendarDate.getMonth() - 1, 1)
     }), this.generateCalendar);
   };
 
   goToNextMonth = () => {
     this.setState(prevState => ({
-      currentDate: new Date(prevState.currentDate.getFullYear(), prevState.currentDate.getMonth() + 1, 1)
+      calendarDate: new Date(prevState.calendarDate.getFullYear(), prevState.calendarDate.getMonth() + 1, 1)
     }), this.generateCalendar);
   };
 
   renderDay = (day) => {
-
+    console.log({day, calendarDate: this.state.calendarDate});
     const dayOfMonth = day ? day.getDate() : '';
     const dayOfWeek = day ? day.toLocaleString('en-us', { weekday: 'short' }) : '';
     let event = this.state.events.filter(g => {
@@ -161,7 +203,7 @@ class Calendar extends React.Component {
 
     if (event.length) {
     }
-    if(day === null){
+    if( !areDatesInSameMonthAndYear(day, this.state.calendarDate)){
       boxClass += ' not-al-box';
     }
 
@@ -217,12 +259,14 @@ class Calendar extends React.Component {
     );
   };
 
+  
+
   handleSelectionChange = () => {
     console.log('Change selection');
   }
 
   render() {
-    const { calendarDays, currentDate } = this.state;
+    const { calendarDays, calendarDate } = this.state;
     console.log(this.state);
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -234,7 +278,7 @@ class Calendar extends React.Component {
           <div>
             <div className="month-navigation">
               <button onClick={this.goToPreviousMonth}><Icon icon="chevron-left" /></button>
-              <h2>{monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}</h2>
+              <h2>{monthNames[calendarDate.getMonth()]} {calendarDate.getFullYear()}</h2>
               <button onClick={this.goToNextMonth}><Icon icon="chevron-right" /></button>
             </div>
             <div className="calendar-grid">

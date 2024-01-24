@@ -12,19 +12,30 @@ class UISelect extends Component {
     }
 
     renderItem = (item, { handleClick }) => {
+        console.log(item);
         return (
             <MenuItem 
-                key={item} 
-                text={item} 
+                key={item.key} 
+                text={item.value} 
                 onClick={handleClick} />
         );
     };
 
+    componentDidMount(){
+        if(this.props.selectedItem){
+            this.setState({selectedItem: this.props.selectedItem})
+        }
+    }
+
     handleItemChange = (item) => {
-        this.setState({ selectedItem: item }, this.props.onChange({item, isSelect: true, key: this.props.itemKey}));
+        console.log(item);
+        if(item.key){
+            this.setState({ selectedItem: item.key? item.key: item }, this.props.onChange({item: item.key, isSelect: true, key: this.props?.itemKey}));
+        }
     };
 
     render() {
+        console.log('STATE', this.state);
         var items = this.props.items;
         return (
             <Select

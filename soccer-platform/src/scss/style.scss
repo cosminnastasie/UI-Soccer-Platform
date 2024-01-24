@@ -14,7 +14,7 @@
 }
 
 .not-al-box{
-    opacity: .6;
+    opacity: .3;
     cursor: not-allowed !important;
     pointer-events: none;
 }
@@ -172,6 +172,9 @@
     .event-header{
         font-weight: 600;
         font-size: 19px;
+        display: flex;
+        justify-content: space-between;
+
     }
 
     .game-teams-label{

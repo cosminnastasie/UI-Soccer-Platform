@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Button, Dialog, FormGroup, InputGroup } from "@blueprintjs/core";
+import { Button, Dialog, FormGroup, InputGroup, Icon } from "@blueprintjs/core";
 import UISelect from './UI_Select';
-import { putData } from './../requests/requests';
+import { putData, deleteData } from './../requests/requests';
 import {URLS, TEAM} from './../requests/constants'
 import {convertDateToYYYYMMDD, getDayOfWeek} from './../requests/helpers'
 import DropdownIcons from './DropdownIcons'
@@ -33,6 +33,8 @@ class SoccerGameDialog extends Component {
     handleClose = () => this.props.handleClose();
 
     handleInputChange = (event) => {
+
+        console.log('event', event);
         if(event?.target){
             const { name, value } = event.target;
             this.setState({ [name]: value });
@@ -62,6 +64,20 @@ class SoccerGameDialog extends Component {
 
         })
     }
+
+    dropEvent = ( event) => {
+        let url = '';
+        if(event.Type === 'Game'){
+            url = URLS.games;
+            let id = event.Id;
+            console.log('PAYLOADS...........', event);
+            deleteData(url, id).then(()=>{
+                console.log('THEN');
+            })
+        }
+
+
+    }
     
     render() {
         // console.log('State:', this.state);
@@ -84,7 +100,7 @@ class SoccerGameDialog extends Component {
                                             var orderA = e.HomeAway === 'Home'? "1": "3";
                                             var orderB = e.HomeAway === 'Home'? "3": "1";
                                             return <div key={e.IdGames} >
-                                                <div className='event-header'>{e.Type} game</div>
+                                                <div className='event-header'><div>{ e.Type !== 'game'? e.Type: 'Championship '} game</div> <div><Icon icon='trash' onClick={()=>this.dropEvent(e)} /></div> </div>
                                                 <div className="game-teams-label">
                                                     <span style={{order: orderA}} >{TEAM} </span>
                                                     <span style={{order: 2, padding: '0 6px'}}> - </span> 
@@ -145,13 +161,15 @@ class SoccerGameDialog extends Component {
                                         <InputGroup type="date" id="date-input" name="date" onChange={this.handleInputChange} value={this.state.date}/>
                                     </FormGroup>
                                     <FormGroup label="Hour" labelFor="hour-input">
-                                        <UISelect items={hours} onChange={this.handleInputChange} itemKey='hour' />
+                                        <UISelect items={hours.map(h=>{
+                                            return {key: h, value: h}
+                                        })} onChange={this.handleInputChange} itemKey='hour' />
                                     </FormGroup>
                                     <FormGroup label="Home/Away" labelFor="homeaway-input">
-                                        <UISelect items={['Home', 'Away']} onChange={this.handleInputChange} itemKey='homeaway' />
+                                        <UISelect items={[{key: 'Home', value: 'Home'}, {'key': 'Away', value: 'Away'}]} onChange={this.handleInputChange} itemKey='homeaway' />
                                     </FormGroup>
                                     <FormGroup label="TypeOfGame" labelFor="typeofgame-input">
-                                        <UISelect items={['Friendly', 'Cup', 'Game']} onChange={this.handleInputChange} itemKey='typeofgame' />
+                                        <UISelect items={[{key: 'Friendly', value: 'Friendly'}, {key: 'Game', value: 'Game'}, {key: 'Cup', value: 'Cup'}]} onChange={this.handleInputChange} itemKey='typeofgame' />
                                     </FormGroup>
                                     <FormGroup label="Location" labelFor="location-input">
                                         <InputGroup id="location-input" name="location" value={this.state.location} onChange={this.handleInputChange} />

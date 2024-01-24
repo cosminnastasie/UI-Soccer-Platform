@@ -3,7 +3,8 @@ export const URLS = {
     players: '/players',
     games: '/games',
     trainings: '/trainings',
-    events: '/events'
+    events: '/events',
+    teams: '/teams'
 }
 
 export const TEAM = 'Unirea Bascov';

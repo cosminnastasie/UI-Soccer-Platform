@@ -32,3 +32,8 @@ export function getDayOfWeek(dateStr) {
     // Returnarea numelui zilei săptămânii
     return days[dayIndex];
 }
+
+export function areDatesInSameMonthAndYear(date1, date2) {
+    return date1.getFullYear() === date2.getFullYear() &&
+           date1.getMonth() === date2.getMonth();
+}
