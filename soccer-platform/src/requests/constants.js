@@ -1,10 +1,12 @@
 export const URLS = {
     apiUrl: 'https://api-soccer-platform.cosminnastasie.workers.dev',
     players: '/players',
+    all_players: '/all-players',
     games: '/games',
     trainings: '/trainings',
     events: '/events',
-    teams: '/teams'
+    teams: '/teams',
+    
 }
 
 export const TEAM = 'Unirea Bascov';

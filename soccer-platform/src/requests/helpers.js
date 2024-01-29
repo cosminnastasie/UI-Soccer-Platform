@@ -37,3 +37,21 @@ export function areDatesInSameMonthAndYear(date1, date2) {
     return date1.getFullYear() === date2.getFullYear() &&
            date1.getMonth() === date2.getMonth();
 }
+
+export function formatDate(date) {
+    const dateTarget = date? date: new Date();
+    const day = String(dateTarget.getDate()).padStart(2, '0');
+    const month = String(dateTarget.getMonth() + 1).padStart(2, '0'); // January is 0!
+    const year = dateTarget.getFullYear();
+    return `${day}.${month}.${year}`;
+}
+
+export function stringToDate(dateStr) {
+    const parts = dateStr.split('.');
+    const day = parts[0];
+    const month = parts[1];
+    const year = parts[2];
+
+    return `${year}-${month}-${day}`;
+}
+

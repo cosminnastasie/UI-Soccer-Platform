@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { Button, Dialog, FormGroup, InputGroup, Icon } from "@blueprintjs/core";
 import UISelect from './UI_Select';
-import { putData, deleteData } from './../requests/requests';
+import { putData, postData } from './../requests/requests';
 import {URLS, TEAM} from './../requests/constants'
 import {convertDateToYYYYMMDD, getDayOfWeek} from './../requests/helpers'
 import DropdownIcons from './DropdownIcons'
+import {handleSaveTraining} from './../requests/actions'
+
 
 const hours = ['09:00', '09:30', '10:00', '11:00', '12:00', '12:15', '12:30', '12:45', '13:00', '13:15', '13:30', '13:45', '14:00', '15:00', '16:00', '17: 00', '18:00', '19:00'];
 
@@ -13,7 +15,6 @@ class SoccerGameDialog extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            // popupState: 'addEditGame',
             popupState: 'info',
             isOpen: false,
             competitor: '',
@@ -33,15 +34,11 @@ class SoccerGameDialog extends Component {
     handleClose = () => this.props.handleClose();
 
     handleInputChange = (event) => {
-
-        console.log('event', event);
         if(event?.target){
             const { name, value } = event.target;
             this.setState({ [name]: value });
         }else if(event?.isSelect){
             this.setState({ [event.key]: event.item });
-
-            // console.log('Event select', event);
         }
     }
 
@@ -49,39 +46,23 @@ class SoccerGameDialog extends Component {
         let {competitor, date, location, hour, homeaway, typeofgame} = this.state;
         let payloads = {competitor, date, location, hour, homeaway, typeofgame}
         putData(URLS.games, payloads).then(()=>{
-            // console.log('Save...', {competitor, date, location, hour, homeaway, typeofgame} );
             this.handleClose();
-        })
-    }
-
-    handleSaveTraining = () => {
-        // console.log(this.state);
-        let { date, location, hour} = this.state;
-        let payloads = { date, location, hour }
-        putData(URLS.trainings, payloads).then(()=>{
-            // console.log('Save...', {competitor, date, location, hour, homeaway, typeofgame} );
-            this.handleClose();
-
         })
     }
 
     dropEvent = ( event) => {
         let url = '';
-        if(event.Type === 'Game'){
+        if(event.ActivityType === 'Game'){
             url = URLS.games;
             let id = event.Id;
-            console.log('PAYLOADS...........', event);
-            deleteData(url, id).then(()=>{
-                console.log('THEN');
+            let action = 'delete';
+            postData(url, {id, action}).then(()=>{
+                this.handleClose();
             })
         }
-
-
     }
     
     render() {
-        // console.log('State:', this.state);
-        // console.log('PROPS:', this.props.events);
         return (
             <div>
                 <Dialog
@@ -95,11 +76,10 @@ class SoccerGameDialog extends Component {
                            ? this.props.events.length
                                 ? <div className='info-box-body'>
                                     {this.props.events.map(e=>{
-                                        console.log(e)
                                         if(e.ActivityType  === 'Game'){
                                             var orderA = e.HomeAway === 'Home'? "1": "3";
                                             var orderB = e.HomeAway === 'Home'? "3": "1";
-                                            return <div key={e.IdGames} >
+                                            return <div key={`game-${e.IdGames}`} >
                                                 <div className='event-header'><div>{ e.Type !== 'game'? e.Type: 'Championship '} game</div> <div><Icon icon='trash' onClick={()=>this.dropEvent(e)} /></div> </div>
                                                 <div className="game-teams-label">
                                                     <span style={{order: orderA}} >{TEAM} </span>
@@ -119,7 +99,7 @@ class SoccerGameDialog extends Component {
                                             </div>
                                         }else if(e.ActivityType  === 'Training'){
                                             
-                                            return <div key={e.IdGames} >
+                                            return <div key={e.IdTrainings} >
                                                 <div className='event-header'>Training</div>
                                                 {
                                                     e.Location
@@ -196,7 +176,9 @@ class SoccerGameDialog extends Component {
                                         <InputGroup type="date" id="date-input" name="date" onChange={this.handleInputChange} value={this.state.date}/>
                                     </FormGroup>
                                     <FormGroup label="Hour" labelFor="hour-input">
-                                        <UISelect items={hours} onChange={this.handleInputChange} itemKey='hour' />
+                                        <UISelect items={hours.map(h=>{
+                                            return {key: h, value: h}
+                                        })} onChange={this.handleInputChange} itemKey='hour' />
                                     </FormGroup>
                                     <FormGroup label="Location" labelFor="location-input">
                                         <InputGroup id="location-input" name="location" value={this.state.location} onChange={this.handleInputChange} />
@@ -204,14 +186,17 @@ class SoccerGameDialog extends Component {
                                 </div>
                                 <div className="bp3-dialog-footer">
                                     <div className="bp3-dialog-footer-actions">
-                                        <Button onClick={this.handleSaveTraining}>Save</Button>
+                                        <Button onClick={()=>{
+                                             let { date, location, hour} = this.state;
+                                             let payloads = { date, location, hour, players: [] }
+                                             handleSaveTraining(payloads, this.handleClose);
+                                        }
+                                        }>Save</Button>
                                         <Button intent="primary" onClick={this.handleClose}>Cancel</Button>
                                     </div>
                                 </div>
                             </div>
                     }
-
-                    
                 </Dialog>
             </div>
         );

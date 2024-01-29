@@ -12,7 +12,6 @@ class UISelect extends Component {
     }
 
     renderItem = (item, { handleClick }) => {
-        console.log(item);
         return (
             <MenuItem 
                 key={item.key} 
@@ -28,14 +27,12 @@ class UISelect extends Component {
     }
 
     handleItemChange = (item) => {
-        console.log(item);
         if(item.key){
             this.setState({ selectedItem: item.key? item.key: item }, this.props.onChange({item: item.key, isSelect: true, key: this.props?.itemKey}));
         }
     };
 
     render() {
-        console.log('STATE', this.state);
         var items = this.props.items;
         return (
             <Select

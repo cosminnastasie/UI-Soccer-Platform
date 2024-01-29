@@ -15,23 +15,21 @@ class Menu extends React.Component {
 
   componentDidMount(){
     getData(URLS.teams).then(result=>{
+      
       this.setState({teams: result, selectedTeam: result?.[0]?.Prefix}); 
     });
   }
 
-  handleInputChange(item){
-    console.log(item);
-    // this.setState({selectedTeam: item})
-  }
+  handleInputChange(item){}
 
   render() {
-    console.log(this.state);
     return (
         <nav className="menu-sidebar">
             <ul>
                 {/* <li><Link to="/">Home</Link></li> */}
                 <li><Link to="/">Calendar</Link></li>
                 <li><Link to="/players">Players</Link></li>
+                <li><Link to="/training">Training</Link></li>
                 {/* <li><Link to="/games">Games</Link></li> */}
                 {/* <li><Link to="/calendar">Calendar</Link></li> */}
             </ul>
@@ -40,7 +38,7 @@ class Menu extends React.Component {
                 <UISelect
                     items={this.state.teams.map((i=>{
                       if(i.IdTeams)
-                        return {key: i.Id, value: i.Prefix}
+                        return {key: i.Prefix, value: i.Prefix}
                       else{
                         return i;
                       }
@@ -50,9 +48,6 @@ class Menu extends React.Component {
                     selectedItem={this.state.selectedTeam}
                 />
               </li>
-              {this.state.teams.map(team=>{
-                return <li key={team.Prefix}>{team.Prefix}</li>
-              })}
             </ul>
         </nav>
     );

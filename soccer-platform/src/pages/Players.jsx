@@ -13,11 +13,8 @@ class Players extends React.Component {
     }
   }
   componentDidMount() {
-    console.log('Get players    ');
 
     getData(URLS.players).then(result => {
-      console.log('RESULT NEW');
-
       this.setState({
         players: result.sort(function (a, b) {
           return parseInt(a.YearOfBirth) - parseInt(b.YearOfBirth);
@@ -35,27 +32,21 @@ class Players extends React.Component {
   ]
 
   gridOptions = {
-    // ... other grid options ...
-
     getRowStyle: (params) => {
       if (parseInt(params.data.YearOfBirth) === 2004) {
         return { color: 'darkcyan' };
       } else if (parseInt(params.data.YearOfBirth) === 2005) {
         return { color: 'deepskyblue' };
       } else if (parseInt(params.data.YearOfBirth) > 2005) {
-        // return { color: 'khaki' };
         return { color: 'mediumaquamarine' };
         
       } else {
         return { color: 'floralwhite' };
       }
     }
-
-    // ... column definitions, rowData, etc. ...
   };
 
   render() {
-    console.log('state', this.state);
     return (
       <div className="overview-layout">
         <h1>Players</h1>

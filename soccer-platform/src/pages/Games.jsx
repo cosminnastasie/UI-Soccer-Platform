@@ -8,8 +8,6 @@ class Games extends React.Component {
     }
   } 
   componentDidMount() {
-    console.log('Get games    ');
-
     var requestOptions = {
       method: 'GET',
       redirect: 'follow'
@@ -23,10 +21,7 @@ class Games extends React.Component {
       .catch(error => console.log('error', error));
   }
 
-
-
   render() {
-    console.log('state', this.state);
     return (
       <div className="overview-layout">
         <h1>Games</h1>

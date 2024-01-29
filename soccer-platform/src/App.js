@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import Players from "./pages/Players";
 import Games from "./pages/Games";
 import Calendar from "./pages/Calendar";
+import Training from "./pages/Training";
 
 class App extends React.Component {
   render() {
@@ -21,6 +22,7 @@ class App extends React.Component {
             <Route path="/players" element={<Players />} />
             <Route path="/games" element={<Games />} />
             <Route path="/calendar" element={<Calendar />} />
+            <Route path="/training" element={<Training />} />
           </Route>
         </Routes>
       </BrowserRouter>

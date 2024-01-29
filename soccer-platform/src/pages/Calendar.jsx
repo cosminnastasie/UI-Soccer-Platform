@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Elevation, Icon} from "@blueprintjs/core";
 import SoccerGameDialog from '../components/SoccerGameDialog'
 import { getData,  } from './../requests/requests';
-import { areDatesInSameMonthAndYear } from './../requests/helpers';
+import { areDatesInSameMonthAndYear, stringToDate } from './../requests/helpers';
 import { URLS } from './../requests/constants'
 
 function isSameDay(date1Str, date2Str, type) {
@@ -11,16 +11,7 @@ function isSameDay(date1Str, date2Str, type) {
 
   const date1 = new Date(date1Str);
   const date2 = new Date(date2Str);
-  // if(type === true){
-  //   console.log('..............', {
-  //     fix,
-  //     LEN: date1Str.length,
-  //     date1Str, date2Str,
-  //     1: date1.getFullYear(), d2: date2.getFullYear(),
-  //     M1: date1.getMonth(), M2: date2.getMonth(),
-  //     D1: date1.getDate() - fix, D2: date2.getDate()
-  //   });
-  // }
+
   return date1.getFullYear() === date2.getFullYear() &&
     date1.getMonth() === date2.getMonth() &&
     date1.getDate() - fix === date2.getDate();
@@ -62,29 +53,6 @@ class Calendar extends React.Component {
         this.setState({ events: result })
 
     });
-    // getData(URLS.games).then(result => {
-    //   let results = result?.map(i => { i.eventType = 'game'; return i; });
-    //   let events = [...this.state.events];
-    //   console.log(1, events);
-    //   events = events.length ? events.filter(e=>e.eventType !== 'game'): [];
-    //   results.forEach(r=>{
-    //     events.push(r);
-    //   })
-    //   this.setState({ events: results })
-    // });
-
-    // getData(URLS.trainings).then(result => {
-    //   let results = result?.map(i => { i.eventType = 'training'; return i; });
-    //   let events = [...this.state.events];
-    //   console.log(2, events);
-    //   events = events.length ? events.filter(e=>e.eventType !== 'training'): [];
-    //   results.forEach(r=>{
-    //     events.push(r);
-    //   })
-      
-      
-      // this.setState({ events: results })
-    // });
   }
 
   componentDidMount() {
@@ -99,32 +67,6 @@ class Calendar extends React.Component {
       this.generateCalendar();
     }
   }
-
-  // generateCalendar1 = () => {
-  //   const { calendarDate } = this.state;
-  //   const year = calendarDate.getFullYear();
-  //   const month = calendarDate.getMonth();
-
-  //   // First day of the month
-  //   const firstDayOfMonth = new Date(year, month, 1);
-  //   // Adjusting so that Monday is the first day of the week
-  //   const firstDayOfWeek = (firstDayOfMonth.getDay() + 6) % 7;
-  //   const daysInThisMonth = new Date(year, month + 1, 0).getDate();
-
-  //   let calendarDays = [];
-
-  //   // Fill in days from the previous month
-  //   for (let i = 0; i < firstDayOfWeek; i++) {
-  //     calendarDays.push(null);
-  //   }
-
-  //   // Fill in days for the current month
-  //   for (let day = 1; day <= daysInThisMonth; day++) {
-  //     calendarDays.push(new Date(year, month, day));
-  //   }
-
-  //   this.setState({ calendarDays });
-  // };
 
   generateCalendar = () => {
     const { calendarDate } = this.state;
@@ -161,12 +103,6 @@ class Calendar extends React.Component {
     this.setState({ calendarDays });
 };
 
-
-
-
-
-
-
   goToPreviousMonth = () => {
     this.setState(prevState => ({
       calendarDate: new Date(prevState.calendarDate.getFullYear(), prevState.calendarDate.getMonth() - 1, 1)
@@ -180,10 +116,12 @@ class Calendar extends React.Component {
   };
 
   renderDay = (day) => {
-    console.log({day, calendarDate: this.state.calendarDate});
     const dayOfMonth = day ? day.getDate() : '';
     const dayOfWeek = day ? day.toLocaleString('en-us', { weekday: 'short' }) : '';
     let event = this.state.events.filter(g => {
+      if( g?.Date?.includes('.') ){
+       g.Date = stringToDate(g.Date);
+      }
       return isSameDay(g.Date, day)
     })
     
@@ -201,8 +139,6 @@ class Calendar extends React.Component {
       boxClass += ' highlight-w-day ';
     }
 
-    if (event.length) {
-    }
     if( !areDatesInSameMonthAndYear(day, this.state.calendarDate)){
       boxClass += ' not-al-box';
     }
@@ -211,7 +147,6 @@ class Calendar extends React.Component {
     let description = '';
 
     if(event.length && event?.[0]?.ActivityType === 'Game'){
-        console.log(event);
         title = `Game`;
         description = event[0].HomeAway === 'Away'
         ? event[0].Competitor + ' - ' + TEAM
@@ -220,14 +155,10 @@ class Calendar extends React.Component {
     }
     
     if(event.length && event?.[0]?.ActivityType === 'Training'){
-        console.log(event);
         title = `Training`;
         description = (event[0].Hour? `Hour: ${event[0].Hour}`: 'No info') + ' ' + event[0].Location;
         boxClass += " highlight-training";
     }
-
-
-
 
     var descriptionClass = 'card-description'
     if(description === ''){
@@ -252,22 +183,12 @@ class Calendar extends React.Component {
           <div className='date-top-right'>{dayOfWeek}, {dayOfMonth}</div>
         </div>
         <div className={descriptionClass} >{description}</div>
-
-
-
       </Card>
     );
   };
 
-  
-
-  handleSelectionChange = () => {
-    console.log('Change selection');
-  }
-
   render() {
     const { calendarDays, calendarDate } = this.state;
-    console.log(this.state);
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
     return (
@@ -300,7 +221,6 @@ class Calendar extends React.Component {
               events={filterEventsByDate(this.state.events, this.state.activeDate)}
             />
         }
-
       </div>
     );
   }
