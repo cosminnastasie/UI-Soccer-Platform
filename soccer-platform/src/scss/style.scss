@@ -1,5 +1,4 @@
 @import "@blueprintjs/core/lib/css/blueprint.css";
-@import "@blueprintjs/datetime/lib/css/blueprint-datetime.css";
 
 
 
@@ -31,6 +30,11 @@
 
 .m-l-10{
     margin-left: 40px;
+}
+
+input::-webkit-inner-spin-button,
+input::-webkit-calendar-picker-indicator {
+  color: white;
 }
 
 // 2. Elements
@@ -447,6 +451,15 @@
         > *{
             margin-left: 12px;
         }
+    }
+    .sp-btn{
+        margin-left: 12px;
+        background: red;
+        color: white;
+        border-radius: 5px;
+        padding: 6px 17px;
+        font-size: 14px;
+        border: 1px solid orangered;
     }
 }
 

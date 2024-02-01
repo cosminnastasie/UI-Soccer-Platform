@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Popover, PopoverInteractionKind } from '@blueprintjs/core';
-import { DatePicker } from '@blueprintjs/datetime';
+// import { DatePicker } from '@blueprintjs/datetime';
 
 class DatePickerButton extends React.Component {
     constructor(props) {
@@ -23,15 +23,15 @@ class DatePickerButton extends React.Component {
 
     render() {
         return (
-            <div>
-                <Popover
+            <div>datepicker
+                {/* <Popover
                     content={<DatePicker value={this.state.selectedDate} onChange={this.handleDateChange} />}
                     interactionKind={PopoverInteractionKind.CLICK}
                     isOpen={this.state.isOpen}
                     onInteraction={(state) => this.setState({ isOpen: state })}
                 >
                     <Button text={this.state.selectedDate.toLocaleDateString()} onClick={this.handleButtonClick} />
-                </Popover>
+                </Popover> */}
             </div>
         );
     }
