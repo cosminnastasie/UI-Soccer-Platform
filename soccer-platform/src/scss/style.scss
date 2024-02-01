@@ -273,7 +273,7 @@ input::-webkit-calendar-picker-indicator {
 // Fields
 
 .field-1{
-    width: 50vw;
+    width: 90vw;
     border: 1px solid white;
     padding: 35px 20px;
     background: green;
@@ -623,9 +623,22 @@ input::-webkit-calendar-picker-indicator {
 .cols-3{
     display: flex;
     justify-content: space-between;
-    > div{
+    flex-wrap: wrap;
+    padding-bottom:120px;
 
-    }
+}
+
+.players-lists{
+    width: 100%;
+    display:flex;
+
+}
+
+.selected-players-list{
+    width: 50%;
+}
+.all-players-list{
+    width:50%;
 }
 
 // 9. Media queries
@@ -690,6 +703,22 @@ input::-webkit-calendar-picker-indicator {
 }
 
 @media only screen and (min-width: 1024px) {
+    .cols-3{
+        flex-wrap: nowrap;
+    }
+    .field-1{
+        width: 50% !important;
+
+    }
+
+    .players-lists{
+        width: 50%;
+    }
+
+    // .selected-players-list{
+    //     width: 25%;
+    // }
+
     .calendar-container {
         max-width: 75%;
         margin: 20px auto;
