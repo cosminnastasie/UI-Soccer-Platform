@@ -9,6 +9,7 @@ import Players from "./pages/Players";
 import Games from "./pages/Games";
 import Calendar from "./pages/Calendar";
 import Training from "./pages/Training";
+import Playground from "./pages/Playground";
 
 class App extends React.Component {
   render() {
@@ -23,6 +24,7 @@ class App extends React.Component {
             <Route path="/games" element={<Games />} />
             <Route path="/calendar" element={<Calendar />} />
             <Route path="/training" element={<Training />} />
+            <Route path="/playground" element={<Playground />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -30,7 +30,8 @@ class Menu extends React.Component {
                 <li><Link to="/">Calendar</Link></li>
                 <li><Link to="/players">Players</Link></li>
                 <li><Link to="/training">Training</Link></li>
-                {/* <li><Link to="/games">Games</Link></li> */}
+                <li><Link to="/playground">Playground</Link></li>
+                <li><Link to="/games">Games</Link></li>
                 {/* <li><Link to="/calendar">Calendar</Link></li> */}
             </ul>
             <ul>

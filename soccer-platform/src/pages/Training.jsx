@@ -83,7 +83,41 @@ class Training extends React.Component {
       });
   }
 
+  getPlayersPosition = () => {
+    console.log(this.state.allPlayers);
+    let playersPositions = {
+      '1': [],
+      '2': [],
+      '4': [],
+      '5': [],
+      '3': [],
+      '6': [],
+      '8': [],
+      '10': [],
+      '7': [],
+      '9': [],
+      '11': []
+    }
+    this.state.allPlayers.filter(p=>{return p.TeamToPlay !== 'Transfer'  && p.isChecked}).forEach(p => {
+      if(p.Position1 === '1'){playersPositions['1'].push({id: p.IdPlayers, name: p.Name});}
+      if(p.Position1 === '2'){playersPositions['2'].push({id: p.IdPlayers, name: p.Name});}
+      if(p.Position1 === '4'){playersPositions['4'].push({id: p.IdPlayers, name: p.Name});}
+      if(p.Position1 === '5'){playersPositions['5'].push({id: p.IdPlayers, name: p.Name});}
+      if(p.Position1 === '3'){playersPositions['3'].push({id: p.IdPlayers, name: p.Name});}
+      if(p.Position1 === '6'){playersPositions['6'].push({id: p.IdPlayers, name: p.Name});}
+      if(p.Position1 === '8'){playersPositions['8'].push({id: p.IdPlayers, name: p.Name});}
+      if(p.Position1 === '10'){playersPositions['10'].push({id: p.IdPlayers, name: p.Name});}
+      if(p.Position1 === '7'){playersPositions['7'].push({id: p.IdPlayers, name: p.Name});}
+      if(p.Position1 === '9'){playersPositions['9'].push({id: p.IdPlayers, name: p.Name});}
+      if(p.Position1 === '11'){playersPositions['11'].push({id: p.IdPlayers, name: p.Name});}
+    });
+    return playersPositions;
+  }
+
   render() {
+    console.log(this.state);
+    console.log(this.getPlayersPosition());
+    let playersPositions = this.getPlayersPosition();
     return (
       <div className="overview-layout">
         <div className="header-row">
@@ -96,7 +130,7 @@ class Training extends React.Component {
           </div>
         </div>
         <div className="cols-3">
-            <div style={{width: '25%'}}>
+            <div style={{width: '20%'}}>
                 <div className="m-l-10">All</div>
                 {
                   this.state?.allPlayers &&
@@ -119,26 +153,47 @@ class Training extends React.Component {
                   <div style={{marginLeft: '40px', marginTop: '22px'}}>
                     <div>GK</div>
                     <ol>
-                    {this.state.allPlayers.filter(p=>{return p.TeamToPlay !== 'Transfer' && p.isChecked && p.Position1 === 'GK'}).map(p=>{
+                    {this.state.allPlayers.filter(p=>{return p.TeamToPlay !== 'Transfer' && p.isChecked && p.Position1 === '1'}).map(p=>{
                       return <li key={`li2-${p.IdPlayers}`}>
                           <Checkbox key={`checkbox2-${p.IdPlayers}`} label={p.Name}
-                            //  onChange={(e) => this.handleEnabledChange(e, p.IdPlayers)}
+                             onChange={(e) => this.handleEnabledChange(e, p.IdPlayers)}
+                             checked={p.isChecked}
                           />
                         </li>
                     })}
                     </ol>
                     <div>Players</div>
                     <ol>
-                    {this.state.allPlayers.filter(p=>{return p.TeamToPlay !== 'Transfer' && p.isChecked && p.Position1 !== 'GK'}).map(p=>{
+                    {this.state.allPlayers.filter(p=>{return p.TeamToPlay !== 'Transfer' && p.isChecked && p.Position1 !== '1'}).map(p=>{
                       return <li key={`l3-${p.IdPlayers}`}>
                           <Checkbox key={`checkbox3-${p.IdPlayers}`} label={p.Name + ' (' + p.Position1 + ') '}
-                            //  onChange={(e) => this.handleEnabledChange(e, p.IdPlayers)}
+                             onChange={(e) => this.handleEnabledChange(e, p.IdPlayers)}
+                             checked={p.isChecked}
                           />
                         </li>
                     })}
                     </ol>
                   </div>
               }
+            </div>
+            <div className="field-1" data="all-players-4-3-3">
+              <div className='GK player'>{playersPositions['1']?.map(p=>{return <div key={p.id}>{p.name}</div>})}</div>
+              <div className='defense row'>
+                <div className='RB player'>{playersPositions['2']?.map(p=>{return <div key={p.id}>{p.name}</div>})}</div>
+                <div className='CRB player'>{playersPositions['4']?.map(p=>{return <div key={p.id}>{p.name}</div>})}</div>
+                <div className='CLB player'>{playersPositions['5']?.map(p=>{return <div key={p.id}>{p.name}</div>})}</div>
+                <div className='LB player'>{playersPositions['3']?.map(p=>{return <div key={p.id}>{p.name}</div>})}</div>
+              </div>
+              <div className='nr6 player'>{playersPositions['6']?.map(p=>{return <div key={p.id}>{p.name}</div>})}</div>
+              <div class="row INTER">
+                <div className='inter-right player'>{playersPositions['10']?.map(p=>{return <div key={p.id}>{p.name}</div>})}</div>
+                <div className='inter-left player'>{playersPositions['8']?.map(p=>{return <div key={p.id}>{p.name}</div>})}</div>
+              </div>
+              <div className='AT row'>
+                <div className='AR player'>{playersPositions['7']?.map(p=>{return <div key={p.id}>{p.name}</div>})}</div>
+                <div className='AC player'>{playersPositions['9']?.map(p=>{return <div key={p.id}>{p.name}</div>})}</div>
+                <div className='AL player'>{playersPositions['11']?.map(p=>{return <div key={p.id}>{p.name}</div>})}</div>
+              </div>
             </div>
         </div>
       </div>

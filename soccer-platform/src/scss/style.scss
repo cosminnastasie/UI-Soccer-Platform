@@ -266,7 +266,83 @@
     // }
 }
 
+// Fields
 
+.field-1{
+    width: 50vw;
+    border: 1px solid white;
+    padding: 35px 20px;
+    background: green;
+    background-image: url("../images/fieldSvg.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: top;
+    height: 77vh;
+    margin: 50px 0 0 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: floralwhite;
+    font-weight: 500;
+    > div{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        // margin-bottom: 34px;
+
+        &.row{
+            flex-direction: row;
+
+            >div{
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                width: 25%;
+                align-items: center;
+
+            }
+        }
+    }
+    .player{
+        color: #ffffff;
+        font-family: "Arial", sans-serif;
+        font-size: 13px;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+        background-color: rgba(0, 0, 0, 0.4);
+        padding: 5px 10px;
+        border-radius: 5px;
+        margin: 5px;
+        width: 194px;
+        /* height: 112px; */
+        min-height: 100px;
+   }
+    .gk{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    .defense{
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        // margin-top: 38px;
+    }
+    .AT{
+        justify-content: space-between;
+    }
+    .INTER{
+        justify-content: space-evenly;
+    }
+}
+
+.inter-right{
+    margin-right: 32px;
+}
+.inter-left{
+    margin-left: 32px;
+}
 
 
 // 3. Layouts
@@ -284,6 +360,33 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-position: top;
+}
+
+.content{
+    height: calc(100vh - 166px);
+    background-color: #D0EFFF;
+    color: navy;
+
+    .no-data{
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        font-size:16px;
+
+        .plus-icon{
+            font-weight: 700;
+            font-size: 58px;
+            cursor:pointer;
+        }
+    }
+}
+
+.bp5-tab-list > *:not(:last-child) {
+    margin-right: 20px;
+    height: 40px !important;
 }
 
 // 3.2 Details
@@ -506,6 +609,7 @@
 
 .cols-3{
     display: flex;
+    justify-content: space-between;
     > div{
 
     }
