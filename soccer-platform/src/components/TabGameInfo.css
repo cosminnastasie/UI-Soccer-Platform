@@ -1,0 +1,36 @@
+.event-form {
+  /* background-color: darkcyan; */
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px; /* Adjust size as needed */
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  display: block;
+  color: #ffffff; /* White text for readability */
+  margin-bottom: 5px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: none; /* Remove default border */
+  box-sizing: border-box;
+  /* Complementary light color for the input background */
+  background-color: #e0f0f0;
+  color: #333; /* Dark text for contrast */
+}
+
+.input-group input::placeholder {
+  color: #666;
+}
+
+/* Adjust the focus outline to match the theme */
+.input-group input:focus {
+  outline: 2px solid #aeeaeae;
+}

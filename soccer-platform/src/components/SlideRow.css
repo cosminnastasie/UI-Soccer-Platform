@@ -1,0 +1,35 @@
+/* SlideRow.css */
+.slide-row {
+    position: fixed;
+    bottom: -60px;
+    left: 0;
+    width: 100%;
+    height: 53px;
+    background-color: crimson;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    transition: bottom 0.5s ease-in-out;
+    padding-right: 30px;
+  }
+  
+  .slide-row.show {
+    bottom: 0; /* Slide up to show */
+  }
+  
+  .toggle-btn {
+    position: fixed;
+    bottom: 70px; /* Position above the sliding row */
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  button {
+    margin: 0 10px;
+    padding: 6px 20px;
+    font-size: 14px;
+    border-radius: 3px;
+    outline: none;
+    border: 1px solid lightgrey;
+  }
+  

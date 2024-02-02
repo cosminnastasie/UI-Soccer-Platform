@@ -35,6 +35,11 @@
 input::-webkit-inner-spin-button,
 input::-webkit-calendar-picker-indicator {
   color: white;
+  display:none;
+}
+
+.bp5-tabs.bp5-vertical > .bp5-tab-list .bp5-tab[aria-selected=true]{
+    color:darkorange;
 }
 
 // 2. Elements
@@ -368,8 +373,8 @@ input::-webkit-calendar-picker-indicator {
 
 .content{
     height: calc(100vh - 166px);
-    background-color: #D0EFFF;
-    color: navy;
+    // background-color: darkcyan;
+    color: floralwhite;
 
     .no-data{
         height: 100%;
@@ -386,6 +391,10 @@ input::-webkit-calendar-picker-indicator {
             cursor:pointer;
         }
     }
+}
+
+.bp5-tabs.bp5-vertical > .bp5-tab-list .bp5-tab{
+    color: floralwhite;
 }
 
 .bp5-tab-list > *:not(:last-child) {
@@ -454,12 +463,12 @@ input::-webkit-calendar-picker-indicator {
     }
     .sp-btn{
         margin-left: 12px;
-        background: red;
+        background: #5D8AA8;
         color: white;
         border-radius: 5px;
-        padding: 6px 17px;
+        padding: 10px 17px;
         font-size: 14px;
-        border: 1px solid orangered;
+        // border: 1px solid orangered;
     }
 }
 
@@ -641,22 +650,42 @@ input::-webkit-calendar-picker-indicator {
     width:50%;
 }
 
+// Games overview
+
+.game-card {
+    &.highlight-card{
+        background-color: #5D8AA8;
+        h5{
+            color: #A5D6A7;
+        }
+    }
+
+}
+
+
 // 9. Media queries
 
 @media only screen and (max-width: 768px) {
     .overview-layout {
-        background-image: url("../images/bg1.jpg");
+        // background-image: url("../images/bg1.jpg");
+        background: black;
     }
 
     .menu-sidebar {
+        flex-wrap: wrap;
         ul {
             li {
                 a {
                     color: #fff;
                 }
             }
+            &:last-child {
+                width: 100%;
+                justify-content: flex-end;
+            }
         }
     }
+
 
     .calendar-container {
         margin-top: 80px;
@@ -673,6 +702,8 @@ input::-webkit-calendar-picker-indicator {
         .calendar-day{
             padding: 6px 4px;
             .card-header{
+                font-size: 9px;
+
                 flex-direction: column;
                 .bp3-heading{
                     order: 2;
@@ -682,17 +713,22 @@ input::-webkit-calendar-picker-indicator {
                     order: 1;
                 }
             }
+            .card-description {
+                font-size: 8px;
+           }
         }
     } 
     .overview-layout.ss-full-width{
         padding: 4px;
     }
+
 }
 
 
 @media only screen and (min-width: 768px) {
     .overview-layout {
-        background-image: url("../images/bg1.jpg");
+        background: black;
+        // background-image: url("../images/bg1.jpg");
     }
 
 }

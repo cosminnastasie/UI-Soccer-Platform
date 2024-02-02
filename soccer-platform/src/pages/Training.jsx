@@ -6,7 +6,6 @@ import { Checkbox, Button } from "@blueprintjs/core";
 import { formatDate, setToday, stringToDate } from './../requests/helpers'
 import { handleSaveTraining } from './../requests/actions'
 
-
 const namesArray = [
 
 ];
@@ -23,7 +22,7 @@ class Training extends React.Component {
 		var date = new Date()
 
 		this.setState({ trainingDate: date })
-		getData(URLS.all_players).then(result => {
+		getData(URLS.players).then(result => {
 			result?.map(p => {
 				p.isChecked = namesArray.includes(p.Name) ? true : false;
 				return p;
