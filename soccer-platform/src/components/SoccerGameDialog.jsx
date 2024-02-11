@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import { Button, Dialog, FormGroup, InputGroup, Icon } from "@blueprintjs/core";
-import UISelect from './UI_Select';
+import UISelect from './UISelect';
 import { putData, postData } from './../requests/requests';
-import {URLS, TEAM} from './../requests/constants'
+import {URLS, TEAM, HOURS} from './../requests/constants'
 import {convertDateToYYYYMMDD, getDayOfWeek} from './../requests/helpers'
 import DropdownIcons from './DropdownIcons'
 import {handleSaveTraining} from './../requests/actions'
-
-
-const hours = ['09:00', '09:30', '10:00', '11:00', '12:00', '12:15', '12:30', '12:45', '13:00', '13:15', '13:30', '13:45', '14:00', '15:00', '16:00', '17: 00', '18:00', '19:00'];
-
 
 class SoccerGameDialog extends Component {
     constructor(props) {
@@ -141,7 +137,7 @@ class SoccerGameDialog extends Component {
                                         <InputGroup type="date" id="date-input" name="date" onChange={this.handleInputChange} value={this.state.date}/>
                                     </FormGroup>
                                     <FormGroup label="Hour" labelFor="hour-input">
-                                        <UISelect items={hours.map(h=>{
+                                        <UISelect items={HOURS.map(h=>{
                                             return {key: h, value: h}
                                         })} onChange={this.handleInputChange} itemKey='hour' />
                                     </FormGroup>
@@ -176,7 +172,7 @@ class SoccerGameDialog extends Component {
                                         <InputGroup type="date" id="date-input" name="date" onChange={this.handleInputChange} value={this.state.date}/>
                                     </FormGroup>
                                     <FormGroup label="Hour" labelFor="hour-input">
-                                        <UISelect items={hours.map(h=>{
+                                        <UISelect items={HOURS.map(h=>{
                                             return {key: h, value: h}
                                         })} onChange={this.handleInputChange} itemKey='hour' />
                                     </FormGroup>

@@ -5,6 +5,7 @@ import { Checkbox, Button } from "@blueprintjs/core";
 // import DatePickerButton from '../components/DatePicker'
 import { formatDate, setToday, stringToDate } from './../requests/helpers'
 import { handleSaveTraining } from './../requests/actions'
+import UIDateSelect from './../components/UIDateSelect'
 
 const namesArray = [
 
@@ -22,7 +23,9 @@ class Training extends React.Component {
 		var date = new Date()
 
 		this.setState({ trainingDate: date })
-		getData(URLS.players).then(result => {
+		// getData(URLS.players).then(result => {
+		getData(URLS.all_players).then(result => {
+			result = result.filter(r=>r.TeamToPlay!=='transferat')
 			result?.map(p => {
 				p.isChecked = namesArray.includes(p.Name) ? true : false;
 				return p;
@@ -97,7 +100,7 @@ class Training extends React.Component {
 			'9': [],
 			'11': []
 		}
-		this.state.allPlayers.filter(p => { return p.TeamToPlay !== 'Transfer' && p.isChecked }).forEach(p => {
+		this.state.allPlayers.filter(p => { return p.TeamToPlay !== 'transferat' && p.isChecked }).forEach(p => {
 			if (p.Position1 === '1') { playersPositions['1'].push({ id: p.IdPlayers, name: p.Name }); }
 			if (p.Position1 === '2') { playersPositions['2'].push({ id: p.IdPlayers, name: p.Name }); }
 			if (p.Position1 === '4') { playersPositions['4'].push({ id: p.IdPlayers, name: p.Name }); }
@@ -124,11 +127,22 @@ class Training extends React.Component {
 				<div className="header-row">
 					<h1>Training</h1>
 					<div className="right-box">
-						<input type="date" className="sp-btn" value={this.state?.trainingDate?.toISOString().substring(0, 10)} id="trainingDate" name="trainingDate" onChange={(event) => {
+					{/* <div className='sp-btn-group'>
+							<div className='btn-text'>Date: </div>
+							<input type="date" className="sp-btn" ref={this.dateInputRef} value={this.state?.gameDate?.toISOString().substring(0, 10)} id="gameDate" name="trainingDate" onChange={(event) => { this.setState({ gameDate: new Date(event.target.value) }, () => { this.getGame() }) }} />
+						</div> */}
+					<UIDateSelect 
+							value={this.state?.trainingDate?.toISOString().substring(0, 10)} 
+							id="trainingDate" 
+							name="trainingDate" 
+							onChange={(event) => {
+								this.setState({ trainingDate: new Date(event.target.value) }, () => { this.getTraining() })}}
+					/>
+						{/* // <input type="date" className="sp-btn" value={this.state?.trainingDate?.toISOString().substring(0, 10)} id="trainingDate" name="trainingDate" onChange={(event) => {
 									this.setState({ trainingDate: new Date(event.target.value) }, () => { this.getTraining() })
 								}
 							}
-						/>
+						/> */}
 
 						{/* <DatePickerButton onChange={  (date) => {console.log(date); this.setState({trainingDate: date}, ()=>{this.getTraining()})} }/> */}
 						<Button onClick={() => {
@@ -144,7 +158,7 @@ class Training extends React.Component {
 								this.state?.allPlayers &&
 								<div className="">
 									<ol>
-										{this.state.allPlayers.filter(p => { return p.TeamToPlay !== 'Transfer' && !p.isChecked }).map(p => {
+										{this.state.allPlayers.filter(p => { return p.TeamToPlay !== 'transferat' && !p.isChecked }).map(p => {
 											return <li key={`li1-${p.IdPlayers}`}>
 												<Checkbox key={`checkbox1-${p.IdPlayers}`} checked={p.isChecked} label={p.Name} onChange={(e) => this.handleEnabledChange(e, p.IdPlayers)} />
 											</li>
@@ -160,8 +174,8 @@ class Training extends React.Component {
 								this.state.allPlayers &&
 								<div style={{ marginLeft: '40px', marginTop: '22px' }}>
 									<div>GK</div>
-									<ol>
-										{this.state.allPlayers.filter(p => { return p.TeamToPlay !== 'Transfer' && p.isChecked && p.Position1 === '1' }).map(p => {
+									<ol className='hide-checkbox'>
+										{this.state.allPlayers.filter(p => { return p.TeamToPlay !== 'transferat' && p.isChecked && p.Position1 === '1' }).map(p => {
 											return <li key={`li2-${p.IdPlayers}`}>
 												<Checkbox key={`checkbox2-${p.IdPlayers}`} label={p.Name}
 													onChange={(e) => this.handleEnabledChange(e, p.IdPlayers)}
@@ -171,10 +185,10 @@ class Training extends React.Component {
 										})}
 									</ol>
 									<div>Players</div>
-									<ol>
-										{this.state.allPlayers.filter(p => { return p.TeamToPlay !== 'Transfer' && p.isChecked && p.Position1 !== '1' }).map(p => {
+									<ol className='hide-checkbox'>
+										{this.state.allPlayers.filter(p => { return p.TeamToPlay !== 'transferat' && p.isChecked && p.Position1 !== '1' }).map(p => {
 											return <li key={`l3-${p.IdPlayers}`}>
-												<Checkbox key={`checkbox3-${p.IdPlayers}`} label={p.Name + ' (' + p.Position1 + ') '}
+												<Checkbox key={`checkbox3-${p.IdPlayers}`} label={p.Name}
 													onChange={(e) => this.handleEnabledChange(e, p.IdPlayers)}
 													checked={p.isChecked}
 												/>

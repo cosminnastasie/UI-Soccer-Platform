@@ -32,11 +32,13 @@
     margin-left: 40px;
 }
 
-input::-webkit-inner-spin-button,
-input::-webkit-calendar-picker-indicator {
-  color: white;
-  display:none;
+.flex-justify{
+    display: flex;
+    justify-content: space-between;
 }
+
+
+
 
 .bp5-tabs.bp5-vertical > .bp5-tab-list .bp5-tab[aria-selected=true]{
     color:darkorange;
@@ -112,7 +114,8 @@ input::-webkit-calendar-picker-indicator {
     width: 100%;
     align-items: center !important;
     justify-content: space-between !important;
-    height: 34px;}
+    height: 34px;
+}
 
 .soccer-game-dialog .bp3-dialog-footer {
     // background-color: #fb6c3f; /* Coral for the footer */
@@ -461,15 +464,59 @@ input::-webkit-calendar-picker-indicator {
             margin-left: 12px;
         }
     }
+    // .sp-btn{
+    //     margin-left: 12px;
+    //     background: #5D8AA8;
+    //     color: white;
+    //     border-radius: 5px;
+    //     font-size: 14px;
+    // }
+}
+
+.sp-btn-group{
+    //     // border: 1px solid orangered;
+    display: flex;
+    align-items: center;
+    background: #5D8AA8;
+    color: white;
+    border-radius: 5px;
+    padding: 2px 17px;
+    font-size: 14px;
+    
     .sp-btn{
-        margin-left: 12px;
-        background: #5D8AA8;
         color: white;
-        border-radius: 5px;
-        padding: 10px 17px;
-        font-size: 14px;
-        // border: 1px solid orangered;
+    padding: 10px 0 9px 10px;
+    background: #5D8AA8;
+    border: none;
+    position: relative;
+
+        // margin-left: 12px;
+        &:hover{
+            outline: none;
+        }        
+        &:focus{
+            outline: none;
+        }
     }
+
+    input::-webkit-inner-spin-button,
+    input::-webkit-calendar-picker-indicator {
+        color: white;
+        opacity: 0;
+        width:100%;
+        height:100%;
+        position:absolute;
+        top:0;
+        left:0;
+    }
+}
+
+.sp-btn{
+    background: #5D8AA8 !important;
+    color: white !important;
+    border-radius: 5px !important;
+    padding: 13px 24px !important;
+    font-size: 14px !important;
 }
 
 // 4. Grid
@@ -650,8 +697,21 @@ input::-webkit-calendar-picker-indicator {
     width:50%;
 }
 
-// Games overview
+.mono-font{
+    color: floralwhite;
+    font-weight: 500;
+    font-family: monospace;
+    margin-top: 4px;
+}
 
+// Games overview
+.hide-checkbox{
+    .bp5-control input:checked ~ .bp5-control-indicator {
+        width: 0px;
+        display: none;
+    }
+
+}
 .game-card {
     &.highlight-card{
         background-color: #5D8AA8;
@@ -659,9 +719,27 @@ input::-webkit-calendar-picker-indicator {
             color: #A5D6A7;
         }
     }
+    .bp5-icon{
+        cursor: pointer;
+        padding: 4px 4px;
+    }
 
 }
 
+.edit-dialog{
+    .bp5-button{
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+}
+
+.sub-description{
+    display: flex;
+    justify-content: space-between;
+    > div{
+        margin-right:12px;
+    }
+}
 
 // 9. Media queries
 

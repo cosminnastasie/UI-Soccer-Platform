@@ -5,24 +5,25 @@ class SlideRow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isVisible: false, // Initially hide the row
+      isVisible: false
     };
   }
 
-  toggleRow = () => {
-    this.setState((prevState) => ({ isVisible: !prevState.isVisible }));
-  };
+  componentDidUpdate(prevProps) {
+    // Check if a specific prop has changed
+    if (this.props.isSaveRowVisible !== prevProps.isSaveRowVisible) {
+      console.log('isSaveRowVisible has changed');
+        this.setState({isVisible: this.props.isSaveRowVisible})
+    }
+  }
 
   render() {
     return (
       <div>
         <div className={`slide-row ${this.state.isVisible ? 'show' : ''}`}>
-          <button onClick={this.toggleRow}>Save</button>
-          <button onClick={this.toggleRow}>Cancel</button>
+          <button onClick={this.props.onSave}>Save</button>
+          <button onClick={this.props.hideSaveRow}>Cancel</button>
         </div>
-        <button onClick={this.toggleRow} className="toggle-btn">
-          Toggle Row
-        </button>
       </div>
     );
   }

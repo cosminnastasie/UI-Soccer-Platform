@@ -145,9 +145,10 @@ class Calendar extends React.Component {
 
     let title = `Day off`;
     let description = '';
-
+    let gameResult = '';
     if(event.length && event?.[0]?.ActivityType === 'Game'){
         title = `Game`;
+        gameResult = event[0].Result;
         description = event[0].HomeAway === 'Away'
         ? event[0].Competitor + ' - ' + TEAM
         : TEAM + ' - ' + event[0].Competitor
@@ -183,6 +184,10 @@ class Calendar extends React.Component {
           <div className='date-top-right'>{dayOfWeek}, {dayOfMonth}</div>
         </div>
         <div className={descriptionClass} >{description}</div>
+        {
+          gameResult !== '' ? <div className="mono-font" >{gameResult}</div>: ''
+        }
+        
       </Card>
     );
   };
@@ -190,7 +195,7 @@ class Calendar extends React.Component {
   render() {
     const { calendarDays, calendarDate } = this.state;
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
+    console.log('Game STATE', this.state);
     return (
       <div className="overview-layout ss-full-width">
         <div className="calendar-container">

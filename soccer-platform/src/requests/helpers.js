@@ -66,3 +66,10 @@ export function setToday() {
     return today;
 };
 
+export function stringToDate2(dateString)  {
+    console.log(dateString);
+    const [year, month, day] = dateString.split('-').map(num => parseInt(num, 10));
+    // Note: the month is 0-indexed, hence the -1
+    const date = new Date(year, month - 1, day);
+    return date;
+  }

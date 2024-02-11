@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import {getData} from './../requests/requests';
 import {URLS} from './../requests/constants';
-import UISelect from '../components/UI_Select';
+import UISelect from '../components/UISelect';
 class Menu extends React.Component {
   constructor(props) {
     super(props);
