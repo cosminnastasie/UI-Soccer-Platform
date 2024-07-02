@@ -25,7 +25,9 @@ class Training extends React.Component {
 		this.setState({ trainingDate: date })
 		// getData(URLS.players).then(result => {
 		getData(URLS.all_players).then(result => {
-			result = result.filter(r=>r.TeamToPlay!=='transferat')
+			result = result.filter(r=>{
+				return (r.TeamToPlay!=='transferat' && r.TeamToPlay!=='false')
+			})
 			result?.map(p => {
 				p.isChecked = namesArray.includes(p.Name) ? true : false;
 				return p;
