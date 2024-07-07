@@ -36,7 +36,7 @@ class Players extends React.Component {
 			newValue = selectedPlayer[0].IsEnable === 1? 0: 1;
 		}
 
-		postData('update-player', { playerId: selectedPlayerId, field, newValue }).then((result) => {
+		postData('/update-player', { playerId: selectedPlayerId, field, newValue }).then((result) => {
 			console.log('Result...', result);
 
 			
