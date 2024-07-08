@@ -32,6 +32,7 @@ class Training extends React.Component {
 				p.isChecked = namesArray.includes(p.Name) ? true : false;
 				return p;
 			});
+			result = result.filter(p => p.IsEnable === 1)
 			this.setState({
 				allPlayers: result.sort(function (a, b) {
 					return parseInt(a.YearOfBirth) - parseInt(b.YearOfBirth);
