@@ -741,6 +741,29 @@
     }
 }
 
+.all-players-list{
+    .bp5-control bp5-checkbox{
+        padding-left: 10px;
+    }
+    .hide-checkbox {
+        input[type="checkbox"]{
+            display: none;
+        }
+        .bp5-control-indicator{
+            display: none;
+        }
+    }
+}
+
+
+.asdf{
+    padding-left: 6px;
+    display: flex;
+    .bp5-control:not(.bp5-align-right) {
+        padding-left: 7px;
+    }
+}
+
 // 9. Media queries
 
 @media only screen and (max-width: 768px) {
@@ -799,6 +822,51 @@
     .overview-layout.ss-full-width{
         padding: 4px;
     }
+    .header-row{
+        h1{
+            font-size:20px;
+        }
+        .right-box{
+            .sp-btn-group{
+                padding: 2px 0px;
+                .btn-text{
+                    display: none;
+                }
+                .sp-btn{
+                    padding: 4px 0px 4px 12px !important;
+                    font-family: -apple-system, "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Open Sans", "Helvetica Neue", "blueprint-icons-16", sans-serif;
+                }
+            }
+        }
+    }
+    .field-1 {
+        padding: 0;
+        width: 100vw !important;
+        margin: 20px 0;
+        .player{
+            white-space: nowrap;
+        }
+    }
+
+    .all-players-list{
+        white-space: nowrap;
+        ol{
+            padding-left: 5px;
+        }
+    }
+    .selected-players-list{
+        
+        white-space: nowrap;
+    }
+
+    .fjkhkhkg{
+        margin-left: 0;
+        margin-top: 22px;
+        padding-left: 20px;
+        overflow: hidden;
+    }
+
+    
 
 }
 
@@ -809,6 +877,9 @@
         // background-image: url("../images/bg1.jpg");
     }
 
+    .save-btn{
+        padding: 6px 32px !important;
+    }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 1024px){

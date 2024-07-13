@@ -34,7 +34,7 @@ class Menu extends React.Component {
                 <li><Link to="/games">Games</Link></li>
                 {/* <li><Link to="/calendar">Calendar</Link></li> */}
             </ul>
-            <ul>
+            {/* <ul>
               <li key="teams">
                 <UISelect
                     items={this.state.teams.map((i=>{
@@ -49,7 +49,7 @@ class Menu extends React.Component {
                     selectedItem={this.state.selectedTeam}
                 />
               </li>
-            </ul>
+            </ul> */}
         </nav>
     );
   }

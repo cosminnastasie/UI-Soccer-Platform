@@ -148,9 +148,9 @@ class Training extends React.Component {
 						/> */}
 
 						{/* <DatePickerButton onChange={  (date) => {console.log(date); this.setState({trainingDate: date}, ()=>{this.getTraining()})} }/> */}
-						<Button onClick={() => {
+						<Button className='save-btn' onClick={() => {
 							this.saveTraining()
-						}} >Save Training</Button>
+						}} >Save</Button>
 					</div>
 				</div>
 				<div className="cols-3">
@@ -159,7 +159,7 @@ class Training extends React.Component {
 							<div className="m-l-10">All</div>
 							{
 								this.state?.allPlayers &&
-								<div className="">
+								<div className='hide-checkbox'>
 									<ol>
 										{this.state.allPlayers.filter(p => { return p.TeamToPlay !== 'transferat' && !p.isChecked }).map(p => {
 											return <li key={`li1-${p.IdPlayers}`}>
@@ -175,29 +175,33 @@ class Training extends React.Component {
 
 							{
 								this.state.allPlayers &&
-								<div style={{ marginLeft: '40px', marginTop: '22px' }}>
-									<div>GK</div>
-									<ol className='hide-checkbox'>
-										{this.state.allPlayers.filter(p => { return p.TeamToPlay !== 'transferat' && p.isChecked && p.Position1 === '1' }).map(p => {
-											return <li key={`li2-${p.IdPlayers}`}>
-												<Checkbox key={`checkbox2-${p.IdPlayers}`} label={p.Name}
-													onChange={(e) => this.handleEnabledChange(e, p.IdPlayers)}
-													checked={p.isChecked}
-												/>
-											</li>
+								<div className="fjkhkhkg">
+									<div style={{marginBottom: '10px'}}>GK</div>
+									<div className='hide-checkbox'>
+										{this.state.allPlayers.filter(p => { return p.TeamToPlay !== 'transferat' && p.isChecked && p.Position1 === '1' }).map((p, k) => {
+											return <div key={`li2-${p.IdPlayers}`}>
+												<div class='asdf'>
+													<Checkbox key={`checkbox2-${p.IdPlayers}`} label={k+1 + '. '  + p.Name}
+														onChange={(e) => this.handleEnabledChange(e, p.IdPlayers)}
+														checked={p.isChecked}
+													/>
+												</div>
+											</div>
 										})}
-									</ol>
-									<div>Players</div>
-									<ol className='hide-checkbox'>
-										{this.state.allPlayers.filter(p => { return p.TeamToPlay !== 'transferat' && p.isChecked && p.Position1 !== '1' }).map(p => {
-											return <li key={`l3-${p.IdPlayers}`}>
-												<Checkbox key={`checkbox3-${p.IdPlayers}`} label={p.Name}
-													onChange={(e) => this.handleEnabledChange(e, p.IdPlayers)}
-													checked={p.isChecked}
-												/>
-											</li>
+									</div>
+									<div  style={{marginBottom: '10px'}}>Players</div>
+									<div className='hide-checkbox'>
+										{this.state.allPlayers.filter(p => { return p.TeamToPlay !== 'transferat' && p.isChecked && p.Position1 !== '1' }).map((p, k) => {
+											return <div key={`l3-${p.IdPlayers}`}>
+												<div class='asdf'>
+													<Checkbox key={`checkbox3-${p.IdPlayers}`} label={k+1 + '. ' + p.Name}
+														onChange={(e) => this.handleEnabledChange(e, p.IdPlayers)}
+														checked={p.isChecked}
+													/>
+												</div>
+											</div>
 										})}
-									</ol>
+									</div>
 								</div>
 							}
 						</div>
