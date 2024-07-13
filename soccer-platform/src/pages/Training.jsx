@@ -25,8 +25,8 @@ class Training extends React.Component {
 		this.setState({ trainingDate: date })
 		// getData(URLS.players).then(result => {
 		getData(URLS.all_players).then(result => {
-			result = result.filter(r=>{
-				return (r.TeamToPlay!=='transferat' && r.TeamToPlay!=='false')
+			result = result.filter(r => {
+				return (r.TeamToPlay !== 'transferat' && r.TeamToPlay !== 'false')
 			})
 			result?.map(p => {
 				p.isChecked = namesArray.includes(p.Name) ? true : false;
@@ -119,6 +119,22 @@ class Training extends React.Component {
 		return playersPositions;
 	}
 
+	copyText = () => {
+			let players = this.state.allPlayers.filter(p => p.isChecked === true)
+			const sortedPlayers = players.sort((a, b) => (a.Position1 === "1" ? -1 : 1));
+			const namesList = sortedPlayers
+			  .map((player, index) => `${index + 1}. ${player.Name}`)
+			  .join('\n');
+		  
+			// Create a temporary textarea element to copy the text
+			const textArea = document.createElement('textarea');
+			textArea.value = namesList;
+			document.body.appendChild(textArea);
+			textArea.select();
+			document.execCommand('copy');
+			document.body.removeChild(textArea);
+	}
+
 	render() {
 		console.log(this.state);
 		var formattedDate = this.state.trainingDate && this.state.trainingDate.toISOString().substring(0, 10);
@@ -130,17 +146,18 @@ class Training extends React.Component {
 				<div className="header-row">
 					<h1>Training</h1>
 					<div className="right-box">
-					{/* <div className='sp-btn-group'>
+						{/* <div className='sp-btn-group'>
 							<div className='btn-text'>Date: </div>
 							<input type="date" className="sp-btn" ref={this.dateInputRef} value={this.state?.gameDate?.toISOString().substring(0, 10)} id="gameDate" name="trainingDate" onChange={(event) => { this.setState({ gameDate: new Date(event.target.value) }, () => { this.getGame() }) }} />
 						</div> */}
-					<UIDateSelect 
-							value={this.state?.trainingDate?.toISOString().substring(0, 10)} 
-							id="trainingDate" 
-							name="trainingDate" 
+						<UIDateSelect
+							value={this.state?.trainingDate?.toISOString().substring(0, 10)}
+							id="trainingDate"
+							name="trainingDate"
 							onChange={(event) => {
-								this.setState({ trainingDate: new Date(event.target.value) }, () => { this.getTraining() })}}
-					/>
+								this.setState({ trainingDate: new Date(event.target.value) }, () => { this.getTraining() })
+							}}
+						/>
 						{/* // <input type="date" className="sp-btn" value={this.state?.trainingDate?.toISOString().substring(0, 10)} id="trainingDate" name="trainingDate" onChange={(event) => {
 									this.setState({ trainingDate: new Date(event.target.value) }, () => { this.getTraining() })
 								}
@@ -148,9 +165,8 @@ class Training extends React.Component {
 						/> */}
 
 						{/* <DatePickerButton onChange={  (date) => {console.log(date); this.setState({trainingDate: date}, ()=>{this.getTraining()})} }/> */}
-						<Button className='save-btn' onClick={() => {
-							this.saveTraining()
-						}} >Save</Button>
+						<Button className='save-btn' onClick={() => { this.saveTraining() }} >Save</Button>
+						<Button className='save-btn' onClick={() => { this.copyText() }} >Copy</Button>
 					</div>
 				</div>
 				<div className="cols-3">
@@ -176,12 +192,12 @@ class Training extends React.Component {
 							{
 								this.state.allPlayers &&
 								<div className="fjkhkhkg">
-									<div style={{marginBottom: '10px'}}>GK</div>
+									<div style={{ marginBottom: '10px' }}>GK</div>
 									<div className='hide-checkbox'>
 										{this.state.allPlayers.filter(p => { return p.TeamToPlay !== 'transferat' && p.isChecked && p.Position1 === '1' }).map((p, k) => {
 											return <div key={`li2-${p.IdPlayers}`}>
 												<div class='asdf'>
-													<Checkbox key={`checkbox2-${p.IdPlayers}`} label={k+1 + '. '  + p.Name}
+													<Checkbox key={`checkbox2-${p.IdPlayers}`} label={k + 1 + '. ' + p.Name}
 														onChange={(e) => this.handleEnabledChange(e, p.IdPlayers)}
 														checked={p.isChecked}
 													/>
@@ -189,12 +205,12 @@ class Training extends React.Component {
 											</div>
 										})}
 									</div>
-									<div  style={{marginBottom: '10px'}}>Players</div>
+									<div style={{ marginBottom: '10px' }}>Players</div>
 									<div className='hide-checkbox'>
 										{this.state.allPlayers.filter(p => { return p.TeamToPlay !== 'transferat' && p.isChecked && p.Position1 !== '1' }).map((p, k) => {
 											return <div key={`l3-${p.IdPlayers}`}>
 												<div class='asdf'>
-													<Checkbox key={`checkbox3-${p.IdPlayers}`} label={k+1 + '. ' + p.Name}
+													<Checkbox key={`checkbox3-${p.IdPlayers}`} label={k + 1 + '. ' + p.Name}
 														onChange={(e) => this.handleEnabledChange(e, p.IdPlayers)}
 														checked={p.isChecked}
 													/>

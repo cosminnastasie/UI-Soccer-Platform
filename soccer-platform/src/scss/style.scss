@@ -840,11 +840,15 @@
         }
     }
     .field-1 {
+        margin-left: -30px !important;
+        margin-right: -30px !important;
         padding: 0;
-        width: 100vw !important;
+        width: calc(100% + 60px) !important;
         margin: 20px 0;
         .player{
             white-space: nowrap;
+            font-size: 8px;
+            font-weight: 500;
         }
     }
 
@@ -857,6 +861,9 @@
     .selected-players-list{
         
         white-space: nowrap;
+    }
+    .bp5-control:not(.bp5-align-right){
+        padding-left: 6px !important;
     }
 
     .fjkhkhkg{
