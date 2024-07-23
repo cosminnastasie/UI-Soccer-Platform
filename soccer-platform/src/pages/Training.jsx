@@ -6,7 +6,24 @@ import { Checkbox, Button } from "@blueprintjs/core";
 import { formatDate, setToday, stringToDate } from './../requests/helpers'
 import { handleSaveTraining } from './../requests/actions'
 import UIDateSelect from './../components/UIDateSelect'
+import UISelect from '../components/UISelect';
 
+import { MenuItem } from "@blueprintjs/core";
+import { Select, PopoverPosition  } from "@blueprintjs/select";
+
+
+const PLAYERS_POSITIONS = [
+	{key: '2', value: '2'},
+	{key: '3', value: 3},
+	{key: '4', value: 4},
+	{key: '5', value: 5},
+	{key: '6', value: 6},
+	{key: '7', value: 7},
+	{key: '8', value: 8},
+	{key: '9', value: 9},
+	{key: '10', value: 10},
+	{key: '11', value: 11},
+]
 const namesArray = [
 
 ];
@@ -15,7 +32,8 @@ class Training extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			allPlayers: []
+			allPlayers: [],
+			formation: '4-3-3'
 		}
 	}
 
@@ -51,18 +69,22 @@ class Training extends React.Component {
 				p.isChecked = false;
 				return p;
 			});
+			console.log(trainingData)
+
 			if (trainingData?.Players) {
 				let trainingPlayers = JSON.parse(trainingData?.Players);
 				allPlayers.map(ap => {
 					trainingPlayers.forEach(tp => {
 						if (tp.id === ap.IdPlayers) {
+							ap.Position1 = tp.Position1;
 							ap.isChecked = tp.isChecked;
+
 						}
 					});
 					return ap;
 				});
 			}
-			this.setState({ allPlayers, trainingData })
+			this.setState({ allPlayers, trainingData, formation: trainingData?.Formation })
 		});
 	}
 
@@ -79,11 +101,11 @@ class Training extends React.Component {
 
 	saveTraining = () => {
 		let players = JSON.stringify(this.state.allPlayers.filter(p => p.isChecked).map(p => {
-			let newPlayer = { id: p.IdPlayers, isChecked: p.isChecked }
+			let newPlayer = { id: p.IdPlayers, isChecked: p.isChecked, Position1: p.Position1  }
 			return newPlayer;
 		}));
 		let id = this.state?.trainingData?.Id;
-		let payloads = { id, date: this.state.trainingDate, location: '', hour: '', players }
+		let payloads = { id, date: this.state.trainingDate, location: '', hour: '', players, formation: this.state.formation }
 		handleSaveTraining(payloads, () => {
 
 		});
@@ -135,11 +157,32 @@ class Training extends React.Component {
 			document.body.removeChild(textArea);
 	}
 
+	handleFormationChange = (item) => {
+		this.setState({formation: item.item})
+		// console.log({'State': this.state, item});
+	}
+
+	setPlayerPosition = (position, player ) => {
+		// console.log(player, position);
+
+
+		let playerId = player.id;
+		let positionId = position.key;
+		// console.log(playerId, positionId);
+		let allPlayers = this.state.allPlayers.map(p=>{
+			if(p.IdPlayers === playerId){
+				p.Position1 = positionId;
+			}
+			return p;
+		})
+		this.setState({allPlayers})
+	}
+
 	render() {
-		console.log(this.state);
+		console.log('STATE', this.state);
 		var formattedDate = this.state.trainingDate && this.state.trainingDate.toISOString().substring(0, 10);
 
-		console.log(formattedDate);
+		// console.log(formattedDate);
 		let playersPositions = this.getPlayersPosition();
 		return (
 			<div className="overview-layout">
@@ -222,23 +265,67 @@ class Training extends React.Component {
 							}
 						</div>
 					</div>
-					<div className="field-1 " data="all-players-4-3-3">
-						<div className='GK player'>{playersPositions['1']?.map(p => { return <div key={p.id}>{p.name}</div> })}</div>
-						<div className='defense row'>
-							<div className='RB player'>{playersPositions['2']?.map(p => { return <div key={p.id}>{p.name}</div> })}</div>
-							<div className='CRB player'>{playersPositions['4']?.map(p => { return <div key={p.id}>{p.name}</div> })}</div>
-							<div className='CLB player'>{playersPositions['5']?.map(p => { return <div key={p.id}>{p.name}</div> })}</div>
-							<div className='LB player'>{playersPositions['3']?.map(p => { return <div key={p.id}>{p.name}</div> })}</div>
+					<div id="fields">
+						<div className="formation-row">
+							<div>Formation: </div>
+							<UISelect items={[{key: '4-3-3', value: '4-3-3'}, {key: '4-2-3-1', value: '4-2-3-1'}, {key: '4-4-2', value: '4-4-2'}]} onChange={this.handleFormationChange} itemKey='formation' selectedItem={this.state.formation} />
 						</div>
-						<div className='nr6 player'>{playersPositions['6']?.map(p => { return <div key={p.id}>{p.name}</div> })}</div>
-						<div class="row INTER">
-							<div className='inter-right player'>{playersPositions['10']?.map(p => { return <div key={p.id}>{p.name}</div> })}</div>
-							<div className='inter-left player'>{playersPositions['8']?.map(p => { return <div key={p.id}>{p.name}</div> })}</div>
-						</div>
-						<div className='AT row'>
-							<div className='AR player'>{playersPositions['7']?.map(p => { return <div key={p.id}>{p.name}</div> })}</div>
-							<div className='AC player'>{playersPositions['9']?.map(p => { return <div key={p.id}>{p.name}</div> })}</div>
-							<div className='AL player'>{playersPositions['11']?.map(p => { return <div key={p.id}>{p.name}</div> })}</div>
+						<div className="field-1 " data={`all-players-${this.state.formation}`}>
+							<div className='GK player'>{playersPositions['1']?.map(p => { return <div key={p.id}>{p.name}</div> })}</div>
+							{
+								this.state.formation === '4-3-3' &&
+								<React.Fragment>
+									<div className='defense row'>
+										<div className='RB player'>{playersPositions['2']?.map(p => { 
+											return <Player data={p} setPlayerPosition={this.setPlayerPosition }/>
+										})}
+										</div>
+										<div className='CRB player'>{playersPositions['4']?.map(p => { 
+											return <Player data={p} setPlayerPosition={this.setPlayerPosition }/>
+										 })}</div>
+										<div className='CLB player'>{playersPositions['5']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition }/> })}</div>
+										<div className='LB player'>{playersPositions['3']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition }/> })}</div>
+									</div>
+									<div className='nr6 player'>{playersPositions['6']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition }/> })}</div>
+									<div class="row INTER">
+										<div className='inter-right player'>{playersPositions['10']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition }/> })}</div>
+										<div className='inter-left player'>{playersPositions['8']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition }/> })}</div>
+									</div>
+									<div className='AT row'>
+										<div className='AR player'>{playersPositions['7']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition }/> })}</div>
+										<div className='AC player'>{playersPositions['9']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition }/> })}</div>
+										<div className='AL player'>{playersPositions['11']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition }/> })}</div>
+									</div>
+								</React.Fragment>
+							}
+
+							{
+								this.state.formation === '4-2-3-1' &&
+									<React.Fragment>
+										<div className='defense row'>
+											<div className='RB player'>{playersPositions['2']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition }/> })}</div>
+											<div className='CRB player'>{playersPositions['4']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition }/> })}</div>
+											<div className='CLB player'>{playersPositions['5']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition }/> })}</div>
+											<div className='LB player'>{playersPositions['3']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition }/> })}</div>
+										</div>
+
+										<div class="row INTER players-2">
+											<div className='nr6 player'>{playersPositions['6']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition }/> })}</div>
+											<div className='inter-left player'>{playersPositions['8']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition }/> })}</div>
+										</div>
+										<div class="row 3-players">
+											<div className='AR player'>{playersPositions['7']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition }/> })}</div>
+
+											<div className='inter-right player'>{playersPositions['10']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition }/> })}</div>
+											<div className='AL player'>{playersPositions['11']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition }/> })}</div>
+
+										</div>
+										<div className='AC player'>{playersPositions['9']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition }/> })}</div>
+
+
+									</React.Fragment>
+							}	
+							
 						</div>
 					</div>
 				</div>
@@ -246,5 +333,31 @@ class Training extends React.Component {
 		);
 	}
 }
+
+const Player = ({ data, setPlayerPosition  }) => {
+	// console.log(data);
+	return (
+	  <div key={data.id}>
+		<Select
+		  className='field-select'
+		  items={PLAYERS_POSITIONS}
+		  itemRenderer={(item, { handleClick }) => {
+			return (
+			  <MenuItem 
+				key={item.key} 
+				text={item.value} 
+				onClick={handleClick}
+			  />
+			);
+		  }}													
+		  onItemSelect={(item) => setPlayerPosition(item, data)}
+		  filterable={false}
+		  popoverProps={{ position: 'right' }}
+		>
+		  <Button className="field-btn" text={data.name} rightIcon="double-caret-vertical" />
+		</Select>
+	  </div>
+	);
+  };
 
 export default Training;

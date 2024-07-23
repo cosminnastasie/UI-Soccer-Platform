@@ -281,7 +281,7 @@
 // Fields
 
 .field-1{
-    width: 90vw;
+    width: 100%;
     border: 1px solid white;
     padding: 35px 20px;
     background: green;
@@ -290,7 +290,7 @@
     background-size: cover;
     background-position: top;
     height: 77vh;
-    margin: 50px 0 0 50px;
+    margin: 50px 0 0 0px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -336,6 +336,7 @@
         width: 100%;
     }
     .defense{
+        margin-top: 32px;
         display: flex;
         flex-direction: row;
         width: 100%;
@@ -764,6 +765,66 @@
     }
 }
 
+.formation-row {
+    display: flex;
+    align-items: baseline;
+
+    .sp-select{
+
+        .sp-select-btn{
+            background-color: transparent !important;
+            color: #fff;        }
+    }
+}
+
+// .AC{
+//     position: relative;
+//     top: 10px;
+// }
+
+.players-2{
+    justify-content: center !important;
+    > div{
+        width: 30%;
+        }
+}
+
+.field-btn{
+    background: transparent !important;
+    color: #fff !important;
+    .bp5-icon{
+        display: none;
+    }
+}
+
+
+
+// .field-1[data="all-players-4-2-3-1"]{
+//     > div.row > div{
+//         width: 28%;
+//     }
+//     .GK{
+//         order: 1;
+//     }
+//     .defense{
+//         margin-top: 91px;
+//         order: 2;
+//     }
+//     // .nr6{
+//     //     order: 4;
+//     // }
+//     .INTER{
+//         order: 3;
+//         justify-content: center;
+//     }
+//     .AT{
+//         order: 5;
+//     }
+//     .AR, .AL{
+//         top: -100px;
+//         position: relative;    }
+// }
+
 // 9. Media queries
 
 @media only screen and (max-width: 768px) {
@@ -843,7 +904,7 @@
         margin-left: -30px !important;
         margin-right: -30px !important;
         padding: 0;
-        width: calc(100% + 60px) !important;
+        width: calc(100% + 44px) !important;
         margin: 20px 0;
         .player{
             white-space: nowrap;
@@ -898,7 +959,7 @@
     .cols-3{
         flex-wrap: nowrap;
     }
-    .field-1{
+    #fields{
         width: 50% !important;
 
     }
