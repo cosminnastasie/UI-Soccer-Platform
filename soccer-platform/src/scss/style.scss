@@ -296,6 +296,9 @@
     align-items: center;
     color: floralwhite;
     font-weight: 500;
+    .player{
+        white-space: nowrap;
+    }
     > div{
         width: 100%;
         display: flex;
@@ -756,7 +759,10 @@
     }
 }
 
-
+.edit-icon{
+    cursor: pointer;
+    margin-right: 8px;
+}
 .asdf{
     padding-left: 6px;
     display: flex;
@@ -797,6 +803,16 @@
     }
 }
 
+.form-box{
+    padding: 10px 0;
+    > div{
+        margin: 20px 0;
+        display: flex;
+        > label{
+            width: 50px;
+        }
+    }
+}
 
 
 // .field-1[data="all-players-4-2-3-1"]{

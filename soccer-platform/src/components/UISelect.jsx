@@ -26,7 +26,7 @@ class UISelect extends Component {
         }
     }
     componentDidUpdate(prevProps, prevState){
-        console.log('-----------------', {prevProps, thisprops: this.props});
+        // console.log('-----------------', {prevProps, thisprops: this.props});
         if(this.props.selectedItem !== prevProps.selectedItem){
             this.setState({selectedItem: this.props.selectedItem})
         }

@@ -3,8 +3,9 @@ import './TabGameInfo.css'; // Make sure the CSS file is in the same directory
 import SlideRow from './SlideRow';
 import UISelect from './UISelect';
 import { Button, Dialog, FormGroup, InputGroup, Icon } from "@blueprintjs/core";
-import { HOURS } from './../requests/constants'
+import { HOURS, URLS } from './../requests/constants'
 import withParams from './../pages/withParams'
+import { putData } from '../requests/requests'; 
 
 class TabGameInfo extends Component {
     constructor(props) {
@@ -35,7 +36,7 @@ class TabGameInfo extends Component {
 
     handleInputChange = (event) => {
         let gameInfo = this.state.gameInfo;
-        console.log('##############', event?.target?.value, event?.target?.value)
+        // console.log('##############', event?.target?.value, event?.target?.value)
         if (event?.target) {
             const { name, value } = event.target;
             gameInfo[name] = value;
@@ -45,9 +46,28 @@ class TabGameInfo extends Component {
         console.log(222, gameInfo);
         this.setState({ gameInfo, isSaveRowVisible: true })
     }
+
     saveGameInfo = () => {
-        console.log('SAVE THIS', this.state);
+        let info = this.state.gameInfo;
+
+        let payloads = {
+            id: info?.Id,
+            competitor: info?.Competitor, 
+            date: info?.Date, 
+            location: info?.Location, 
+            hour: info?.Hour, 
+            homeaway: info?.HomeAway , 
+            typeofgame: info?.Type , 
+            result: info?.Result
+        }
+
+        putData(URLS.games, payloads).then(()=>{
+            this.setState({isSaveRowVisible: false})
+        })
+        console.log('SAVE THIS', payloads);
     }
+
+
     render() {
         console.log('Game TAB INFO State', this.state);
 
@@ -63,13 +83,13 @@ class TabGameInfo extends Component {
                 <FormGroup label="Hour" labelFor="hour-input">
                     <UISelect items={HOURS.map(h => {
                         return { key: h, value: h }
-                    })} onChange={this.handleInputChange} itemKey='hour' />
+                    })} onChange={this.handleInputChange} itemKey='Hour' />
                 </FormGroup>
                 <FormGroup label="Home/Away" labelFor="homeaway-input">
-                    <UISelect items={[{ key: 'Home', value: 'Home' }, { 'key': 'Away', value: 'Away' }]} activeItem={this.state.gameInfo.Type} onChange={this.handleInputChange} itemKey='homeaway' />
+                    <UISelect items={[{ key: 'Home', value: 'Home' }, { 'key': 'Away', value: 'Away' }]} activeItem={this.state.gameInfo.Type} onChange={this.handleInputChange} itemKey='HomeAway' />
                 </FormGroup>
                 <FormGroup label="TypeOfGame" labelFor="typeofgame-input">
-                    <UISelect items={[{ key: 'Friendly', value: 'Friendly' }, { key: 'Game', value: 'Game' }, { key: 'Cup', value: 'Cup' }]} activeItem={this.state.gameInfo.TypeOfGame} onChange={this.handleInputChange} itemKey='typeofgame' />
+                    <UISelect items={[{ key: 'Friendly', value: 'Friendly' }, { key: 'Game', value: 'Game' }, { key: 'Cup', value: 'Cup' }]} activeItem={this.state.gameInfo.TypeOfGame} onChange={this.handleInputChange} itemKey='Type' />
                 </FormGroup>
                 <FormGroup label="Location" labelFor="location-input">
                     <InputGroup id="location-input" name="Location" value={this.state.gameInfo.Location} onChange={this.handleInputChange} />

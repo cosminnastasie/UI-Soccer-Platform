@@ -6,6 +6,7 @@ import {URLS, TEAM, HOURS} from './../requests/constants'
 import {convertDateToYYYYMMDD, getDayOfWeek} from './../requests/helpers'
 import DropdownIcons from './DropdownIcons'
 import {handleSaveTraining} from './../requests/actions'
+import withParams from'./../pages/withParams'
 
 class SoccerGameDialog extends Component {
     constructor(props) {
@@ -59,6 +60,8 @@ class SoccerGameDialog extends Component {
     }
     
     render() {
+        // console.log('Props...', this.props);
+        // console.log('State...', this.state);
         return (
             <div>
                 <Dialog
@@ -72,11 +75,14 @@ class SoccerGameDialog extends Component {
                            ? this.props.events.length
                                 ? <div className='info-box-body'>
                                     {this.props.events.map(e=>{
+                                        console.log(e);
                                         if(e.ActivityType  === 'Game'){
                                             var orderA = e.HomeAway === 'Home'? "1": "3";
                                             var orderB = e.HomeAway === 'Home'? "3": "1";
                                             return <div key={`game-${e.IdGames}`} >
-                                                <div className='event-header'><div>{ e.Type !== 'game'? e.Type: 'Championship '} game</div> <div><Icon icon='trash' onClick={()=>this.dropEvent(e)} /></div> </div>
+                                                <div className='event-header'><div>{ e.Type !== 'game'? e.Type: 'Championship '} game</div> <div><Icon className="edit-icon" icon='edit' onClick={()=> {
+                                                    this.props.navigate(`/games-detail/${e.Id}`)
+                                                }} /><Icon icon='trash' onClick={()=>this.dropEvent(e)} /></div> </div>
                                                 <div className="game-teams-label">
                                                     <span style={{order: orderA}} >{TEAM} </span>
                                                     <span style={{order: 2, padding: '0 6px'}}> - </span> 
@@ -154,7 +160,7 @@ class SoccerGameDialog extends Component {
                                 <div className="bp3-dialog-footer">
                                     <div className="bp3-dialog-footer-actions">
                                         <Button onClick={this.handleSaveGame}>Save</Button>
-                                        <Button >Add Teams</Button>
+                                        {/* <Button >Add Teams</Button> */}
                                         <Button intent="primary" onClick={this.handleClose}>Cancel</Button>
                                     </div>
                                 </div>
@@ -199,6 +205,7 @@ class SoccerGameDialog extends Component {
     }
 }
 
-export default SoccerGameDialog;
+export default withParams(SoccerGameDialog);
+
 
 
