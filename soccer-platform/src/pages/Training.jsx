@@ -358,7 +358,7 @@ class Training extends React.Component {
 					<div id="fields">
 						<div className="formation-row">
 							<div>Formation: </div>
-							<UISelect items={[{ key: '4-3-3', value: '4-3-3' }, { key: '4-2-3-1', value: '4-2-3-1' }, { key: '4-4-2', value: '4-4-2' }]} onChange={this.handleFormationChange} itemKey='formation' selectedItem={this.state.formation} />
+							<UISelect items={[{ key: '4-3-3', value: '4-3-3' }, { key: '4-4-2', value: '4-4-2' }, { key: '4-2-3-1', value: '4-2-3-1' }, { key: '4-4-2', value: '4-4-2' }]} onChange={this.handleFormationChange} itemKey='formation' selectedItem={this.state.formation} />
 						</div>
 						<div className="field-1 " data={`all-players-${this.state.formation}`}>
 							<div className='GK player'>{playersPositions['1']?.map(p => { return <div key={p.id}>{p.name}</div> })}</div>
@@ -389,7 +389,7 @@ class Training extends React.Component {
 								</React.Fragment>
 							}
 
-							{
+{
 								this.state.formation === '4-2-3-1' &&
 								<React.Fragment>
 									<div className='defense row'>
@@ -411,6 +411,32 @@ class Training extends React.Component {
 
 									</div>
 									<div className='AC player'>{playersPositions['9']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+
+
+								</React.Fragment>
+							}
+							{
+								this.state.formation === '4-4-2' &&
+								<React.Fragment>
+									<div className='defense row'>
+										<div className='RB player'>{playersPositions['2']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+										<div className='CRB player'>{playersPositions['4']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+										<div className='CLB player'>{playersPositions['5']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+										<div className='LB player'>{playersPositions['3']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+									</div>
+
+									<div class="row  players-4">
+										<div className='AR player'>{playersPositions['7']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+										<div className='nr6 player'>{playersPositions['6']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+										<div className='inter-left player'>{playersPositions['8']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+										<div className='inter-right player'>{playersPositions['10']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+									</div>
+									<div class="row players-2">
+
+										<div className='AL player'>{playersPositions['11']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+										<div className='AC player'>{playersPositions['9']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+
+									</div>
 
 
 								</React.Fragment>
