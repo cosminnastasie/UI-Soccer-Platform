@@ -377,11 +377,11 @@ class Training extends React.Component {
 										<div className='LB player'>{playersPositions['3']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
 									</div>
 									<div className='nr6 player'>{playersPositions['6']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
-									<div class="row INTER">
+									<div class="row INTER players-2">
 										<div className='inter-right player'>{playersPositions['10']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
 										<div className='inter-left player'>{playersPositions['8']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
 									</div>
-									<div className='AT row'>
+									<div className='row players-3'>
 										<div className='AR player'>{playersPositions['7']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
 										<div className='AC player'>{playersPositions['9']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
 										<div className='AL player'>{playersPositions['11']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
@@ -403,7 +403,7 @@ class Training extends React.Component {
 										<div className='nr6 player'>{playersPositions['6']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
 										<div className='inter-left player'>{playersPositions['8']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
 									</div>
-									<div class="row 3-players">
+									<div class="row players-3">
 										<div className='AR player'>{playersPositions['7']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
 
 										<div className='inter-right player'>{playersPositions['10']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>

@@ -864,6 +864,29 @@
         }
     }
 
+    #fields{
+        max-width: 100%;
+
+        .field-btn{
+            font-size: 9px;
+        }
+        .players-3{
+            >div{
+                width: 30% !important;
+            }
+        }
+        .players-2{
+            >div{
+                width: 40% !important;
+            }
+        }
+    }
+
+    .players-lists{
+        label{
+            font-size: 12px;
+        }
+    }
 
     .calendar-container {
         margin-top: 80px;
