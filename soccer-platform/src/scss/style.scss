@@ -159,6 +159,7 @@
 
 .info-dialog.bp5-dialog{
     width: 650px;
+    position: relative;
     .bp5-dialog-header{
         background: #fff !important;
         height: 60px;
@@ -173,7 +174,7 @@
     }
 
     .info-box-body{
-        padding: 40px;
+        padding: 40px 40px 0 40px;
     }
     
     .info-box-no-info{
@@ -201,11 +202,27 @@
     }
 
     .game-teams-label{
+        // display: flex;
+        // margin: 8px 0 6px 0;
+        // font-size: 16px;
+        // color: cadetblue;
+        // font-weight: 600;
         display: flex;
         margin: 8px 0 6px 0;
         font-size: 16px;
         color: cadetblue;
         font-weight: 600;
+        width: 100%;
+        justify-content: space-evenly;
+    }
+
+    .footer-dialog-popup{
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        left: 0;
+        padding: 32px 40px;
+        border-top: 1px solid lightgrey;
     }
 }
 
@@ -756,6 +773,99 @@
         .bp5-control-indicator{
             display: none;
         }
+    }
+}
+
+.label-player{
+    cursor: pointer;
+    font-size: 15px;
+    line-height: 24px;
+}
+
+.status-popup{
+    min-width: 300px !important;
+    min-height: 150px;
+    display: flex;
+    align-items: normal;
+    flex-direction: column;
+    position: absolute;
+    top: 181px;
+    left: 46px;
+    background-color: white;
+    border: 1px solid rgb(139 125 120);
+    border-radius: 5px;
+    z-index: 1000;
+    transform-origin: center bottom;
+    h3{
+        color: #88C0D0;
+        font-size: 20px;
+        padding: 10px 10px 16px 16px;
+        margin-top: 14px;
+        font-weight: 500;
+        margin: 0;
+        display: flex;
+        justify-content: flex-start;
+        border-bottom: 1px solid lightgrey;
+        background: #4A5568;
+
+    }   
+    .bp5-icon-cross{
+        color: white;
+        position: absolute;
+        right: 12px;
+        top: 13px;
+        cursor: pointer;
+        svg{
+            width: 22px;
+            height: 22px;
+        }
+    }
+    .icons-row{
+        padding: 4px 12px 20px 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;;
+        height: 105px;
+        .bp5-icon{
+            width: 25%;
+            width: 25%;
+            align-items: center;
+            display: flex;
+            justify-content: center;
+        }
+        .bp5-icon-plus{
+            color: red;
+        }
+        .bp5-icon-tick{
+            color: green;
+        }
+        .bp5-icon-issue{
+            color: purple;
+        }
+        svg{
+            width: 30px;
+            height: 30px;
+        }
+        
+    } 
+}
+
+.game-rez-block{
+    width: 100%;
+    margin: 0;
+    padding-bottom: 15px;
+    min-height: 167px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.game-score-block{
+    display: flex;
+    justify-content: space-around;
+    > div{
+        font-size: 16px;
+        font-weight: 700;
+        color: orangered;
     }
 }
 

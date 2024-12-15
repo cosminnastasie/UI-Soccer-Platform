@@ -39,7 +39,7 @@ export function areDatesInSameMonthAndYear(date1, date2) {
 }
 
 export function formatDate(date) {
-    console.log('......', date);
+    // console.log('......', date);
     const dateTarget = date? date: new Date();
     const day = String(dateTarget.getDate()).padStart(2, '0');
     const month = String(dateTarget.getMonth() + 1).padStart(2, '0'); // January is 0!
@@ -73,3 +73,9 @@ export function stringToDate2(dateString)  {
     const date = new Date(year, month - 1, day);
     return date;
   }
+
+export function isEmptyObject(obj) {
+    return obj && Object.keys(obj).length === 0 && obj.constructor === Object;
+}
+
+

@@ -28,10 +28,12 @@ class GamesDetail extends React.Component {
 			let gameInfo = {}
 			if(result?.results){
 				gameInfo = result?.results?.[0];
+				this.setState({gameInfo}, ()=>{
+					console.log('#####################GAME INFOOOO', gameInfo);
+				});
+			}else{
+
 			}
-			this.setState({gameInfo}, ()=>{
-				console.log('#####################GAME INFOOOO', gameInfo);
-			});
 		})
 		
 	}
@@ -53,7 +55,7 @@ class GamesDetail extends React.Component {
 				</div>
 				<div className="content">
 					<Tabs id="TabsExample" onChange={this.handleTabChange} defaultSelectedTabId="gi" vertical={true}>
-						<Tab id="gi" title="Game Info" panel={this.state.gameInfo? <TabGameInfo gameInfo={this.state.gameInfo} onChange={(gameInfo)=>{this.setState({gameInfo})}} />: <div>Loading ...</div>} />
+						<Tab id="gi" title="Game Info" panel={<TabGameInfo gameInfo={this.state.gameInfo} onChange={(gameInfo)=>{this.setState({gameInfo})}} />} />
 						<Tab id="t" title="Team" onChange={this.handleTabChange}  panel={<TabGameTeam gameId={this.props?.params?.gameId} />} panelClassName="ember-panel" />
 						<Tab id="pi" title="Players Info" onChange={this.handleTabChange}  panel={<div>Players Info</div>} panelClassName="ember-panel" />
 					</Tabs>

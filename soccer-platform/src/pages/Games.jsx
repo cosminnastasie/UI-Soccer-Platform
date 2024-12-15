@@ -81,9 +81,7 @@ class Games extends React.Component {
 				<div className="content">
  					<>
 						<div style={{width: '50%'}}>
-							<div>
-								{this.state.games ? this.state.games.map(game => this.renderGameCard(game)): ''}
-							</div>
+							Games list here
 						</div>
 						<div className='right-content'></div>
 					</>

@@ -27,16 +27,19 @@ class TabGameInfo extends Component {
     }
 
     componentDidMount() {
-        this.setState({ gameInfo: this.props.gameInfo })
+        if(this.props.gameInfo){
+            this.setState({ gameInfo: this.props.gameInfo })
+
+        }
         // console.log('TabGameInfo PROPS',  this.props);
     }
 
     componentDidUpdate() { }
 
 
-    handleInputChange = (event) => {
+    handleInputChange_deprecated = (event) => {
         let gameInfo = this.state.gameInfo;
-        // console.log('##############', event?.target?.value, event?.target?.value)
+        console.log('##############', event?.target)
         if (event?.target) {
             const { name, value } = event.target;
             gameInfo[name] = value;
@@ -46,6 +49,20 @@ class TabGameInfo extends Component {
         console.log(222, gameInfo);
         this.setState({ gameInfo, isSaveRowVisible: true })
     }
+
+    handleInputChange = (event) => {
+        const { name, value } = event?.target || {}; // Safely destructure name and value
+        const gameInfo = { ...this.state.gameInfo }; // Create a copy of gameInfo
+    
+        if (name) {
+            gameInfo[name] = value; // Update the field dynamically
+        } else if (event?.isSelect) {
+            gameInfo[event.key] = event.item; // Handle select-like events
+        }
+    
+        console.log('Updated Game Info:', gameInfo);
+        this.setState({ gameInfo, isSaveRowVisible: true }); // Update state
+    };
 
     saveGameInfo = () => {
         let info = this.state.gameInfo;

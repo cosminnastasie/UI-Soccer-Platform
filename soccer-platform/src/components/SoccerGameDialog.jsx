@@ -51,17 +51,21 @@ class SoccerGameDialog extends Component {
         let url = '';
         if(event.ActivityType === 'Game'){
             url = URLS.games;
-            let id = event.Id;
-            let action = 'delete';
-            postData(url, {id, action}).then(()=>{
-                this.handleClose();
-            })
+        }else if(event.ActivityType === 'Training'){
+            url = URLS.trainings;
         }
+        let id = event.Id;
+        let action = 'delete';
+        postData(url, {id, action}).then(()=>{
+            this.handleClose();
+        })
+
+        console.log(event.ActivityType)
     }
     
     render() {
         // console.log('Props...', this.props);
-        // console.log('State...', this.state);
+        console.log('State...', this.state);
         return (
             <div>
                 <Dialog
@@ -78,31 +82,54 @@ class SoccerGameDialog extends Component {
                                         console.log(e);
                                         if(e.ActivityType  === 'Game'){
                                             var orderA = e.HomeAway === 'Home'? "1": "3";
+                                            // var resultA = e.HomeAway === 'Home'? "1": "3";
                                             var orderB = e.HomeAway === 'Home'? "3": "1";
                                             return <div key={`game-${e.IdGames}`} >
-                                                <div className='event-header'><div>{ e.Type !== 'game'? e.Type: 'Championship '} game</div> <div><Icon className="edit-icon" icon='edit' onClick={()=> {
-                                                    this.props.navigate(`/games-detail/${e.Id}`)
-                                                }} /><Icon icon='trash' onClick={()=>this.dropEvent(e)} /></div> </div>
-                                                <div className="game-teams-label">
-                                                    <span style={{order: orderA}} >{TEAM} </span>
-                                                    <span style={{order: 2, padding: '0 6px'}}> - </span> 
-                                                    <span style={{order: orderB}} > {e.Competitor}</span>
+                                                <div className='event-header'>
+                                                    <div>{ e.Type !== 'game'? e.Type: 'Championship '} game</div>
+                                                    <div>
+                                                        <Icon className="edit-icon" icon='edit' onClick={()=> {this.props.navigate(`/games-detail/${e.Id}`)}} />
+                                                        <Icon icon='trash' onClick={()=>this.dropEvent(e)} />
+                                                    </div> 
                                                 </div>
-                                                {
-                                                    e.Location
-                                                        ? <div className="font-style-10">Location: Stadion {e.Location}</div>
-                                                        :''
-                                                }
-                                                {
-                                                    e.Hour
-                                                        ? <div className="font-style-10">Hour: {e.Hour}</div>
-                                                        :''
-                                                }
+                                                <div className='game-rez-block'>
+                                                    <div className="game-teams-label">
+                                                        <span style={{order: orderA}} >{TEAM} </span>
+                                                        <span style={{order: 2, padding: '0 6px'}}> - </span> 
+                                                        <span style={{order: orderB}} > {e.Competitor}</span>
+                                                    </div>
+                                                    {e.Result &&
+                                                        <div className='game-score-block'>
+                                                            <div>{e.Result.split('-')[0]}</div>
+                                                            <div>{e.Result.split('-')[1]}</div>
+                                                        </div>
+                                                    
+                                                    }
+                                                </div>
+                                                <div className='footer-dialog-popup'>
+                                                    {
+                                                        e.Location
+                                                            ? <div className="font-style-10">Location: Stadion {e.Location}</div>
+                                                            :''
+                                                    }
+                                                    {
+                                                        e.Hour
+                                                            ? <div className="font-style-10">Hour: {e.Hour}</div>
+                                                            :''
+                                                    }
+                                                </div>
+                                                
                                             </div>
                                         }else if(e.ActivityType  === 'Training'){
                                             
                                             return <div key={e.IdTrainings} >
-                                                <div className='event-header'>Training</div>
+                                                <div className='event-header'>
+                                                    <div>Training</div>
+                                                    <div>
+                                                        <Icon icon='trash' onClick={()=>this.dropEvent(e)} />
+                                                    </div> 
+                                                </div>
+                                                
                                                 {
                                                     e.Location
                                                         ? <div className="font-style-10" >Location: Stadion {e.Location}</div>
@@ -190,7 +217,9 @@ class SoccerGameDialog extends Component {
                                     <div className="bp3-dialog-footer-actions">
                                         <Button onClick={()=>{
                                              let { date, location, hour} = this.state;
-                                             let payloads = { date, location, hour, players: [] }
+                                             date =  new Date(date);
+                                             console.log(date)
+                                             let payloads = { date, location, hour, players: "", formation: "" }
                                              handleSaveTraining(payloads, this.handleClose);
                                         }
                                         }>Save</Button>

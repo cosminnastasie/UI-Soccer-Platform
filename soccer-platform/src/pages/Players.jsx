@@ -17,7 +17,7 @@ class Players extends React.Component {
 	}
 	componentDidMount() {
 
-		getData(URLS.players).then(result => {
+		getData(URLS.all_players).then(result => {
 			this.setState({
 				players: result
 			})
@@ -80,6 +80,7 @@ class Players extends React.Component {
 			{ field: 'Position1' },
 			{ field: 'YearOfBirth' },
 			{ field: 'Number' },
+			{ field: 'Status' },
 			{ 
 				field: 'IsEnable',  
 				cellRenderer: function (params) {

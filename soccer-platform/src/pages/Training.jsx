@@ -3,10 +3,12 @@ import { getData, postData } from './../requests/requests';
 import { URLS } from './../requests/constants'
 import { Checkbox, Button } from "@blueprintjs/core";
 // import DatePickerButton from '../components/DatePicker'
-import { formatDate, setToday, stringToDate } from './../requests/helpers'
+import { formatDate, setToday, stringToDate, isEmptyObject } from './../requests/helpers'
 import { handleSaveTraining } from './../requests/actions'
 import UIDateSelect from './../components/UIDateSelect'
 import UISelect from '../components/UISelect';
+import { CSSTransition } from "react-transition-group"; // For the show effect
+import {Icon} from "@blueprintjs/core";
 
 import { MenuItem } from "@blueprintjs/core";
 import { Select, PopoverPosition } from "@blueprintjs/select";
@@ -46,8 +48,13 @@ class Training extends React.Component {
 		super(props)
 		this.state = {
 			allPlayers: [],
-			formation: '4-3-3'
+			formation: '4-3-3',
+			activePlayerId: null, // Tracks the currently selected player
+			popupPosition: { top: 0, left: 0 },
 		}
+
+		this.handleRightClick = this.handleRightClick.bind(this);
+		this.closePopup = this.closePopup.bind(this);
 	}
 
 	componentDidMount() {
@@ -55,7 +62,7 @@ class Training extends React.Component {
 
 		this.setState({ trainingDate: date })
 		// getData(URLS.players).then(result => {
-		getData(URLS.all_players).then(result => {
+		getData(URLS.players).then(result => {
 			result = result.filter(r => {
 				return (r.TeamToPlay !== 'transferat' && r.TeamToPlay !== 'false')
 			})
@@ -64,50 +71,63 @@ class Training extends React.Component {
 				return p;
 			});
 			result = result.filter(p => p.IsEnable === 1)
+			let allPlayers = result.sort(function (a, b) {
+				return parseInt(a.YearOfBirth) - parseInt(b.YearOfBirth);
+			})
 			this.setState({
-				allPlayers: result.sort(function (a, b) {
-					return parseInt(a.YearOfBirth) - parseInt(b.YearOfBirth);
-				})
+				// defaultPlayers is used when no training data is available
+				defaultPlayers: allPlayers,
+				// allPlayers is used for training data
+				allPlayers: allPlayers
 			}, () => { this.getTraining() })
 		});
 	}
 
 	getTraining = () => {
-		// console.log('######################', formatDate(this.state.trainingDate));
 		postData(URLS.trainings, { date: formatDate(this.state.trainingDate) }).then((result) => {
-			let trainingData = result?.results[0] || [];
+			let trainingData = result?.results[0] || {};
+			console.log(trainingData, isEmptyObject(trainingData))
+			let allPlayers = !isEmptyObject(trainingData)? (trainingData?.Players? JSON.parse(trainingData?.Players): this.state.defaultPlayers) : this.state.defaultPlayers
+
+
 			// if(result?.results.length){
-			let allPlayers = this.state.allPlayers;
-			allPlayers.map(p => {
-				p.isChecked = false;
-				return p;
-			});
-			console.log(trainingData)
-			if (trainingData?.Players) {
-				let trainingPlayers = JSON.parse(trainingData?.Players);
-				trainingPlayers.filter(td => td.id > 999999).forEach(td=>{
-					allPlayers.push({IdPlayers: td.id, Name: td.name, Position1: td.Position1})
-				})
-				allPlayers.map(ap => {
-					trainingPlayers.forEach(tp => {
-						console.log(tp);
-						if (tp.id === ap.IdPlayers ) {
-							ap.Position1 = tp.Position1;
-							ap.isChecked = tp.isChecked;
-						}
-						// if (tp.id===100001){
-						// 	ap.Position1 = tp.Position1;
-						// 	ap.isChecked = tp.isChecked;
-						// }
-					});
-					return ap;
-				});
-			}
-			this.setState({ allPlayers, trainingData, formation: trainingData?.Formation })
+			// allPlayers.map(p => {
+			// 	p.isChecked = false;
+			// 	// console.log(p)
+			// 	// console.log(p.status, (p.status in [0, 1]))
+			// 	p.status = p.status ? p.status : 1;
+			// 	return p;
+			// });
+			// console.log(trainingData)
+			// if (trainingData?.Players) {
+			// 	allPlayers = JSON.parse(trainingData?.Players)
+			
+				// let trainingPlayers = JSON.parse(trainingData?.Players);
+				// // console.log('trainingPlayers', trainingPlayers)
+				// // console.log('allPlayers', allPlayers)
+				// trainingPlayers.filter(td => td.id > 999999).forEach(td=>{
+				// 	allPlayers.push({IdPlayers: td.id, Name: td.name, Position1: td.Position1, status: td.status})
+				// })
+				// allPlayers.map(ap => {
+				// 	trainingPlayers.forEach(tp => {
+				// 		if (tp.id === ap.IdPlayers ) {
+				// 			ap.Position1 = tp.Position1;
+				// 			ap.isChecked = tp.isChecked;
+				// 			ap.status = tp.status;
+				// 		}
+
+				// 	});
+				// 	return ap;
+				// });
+			// }else{
+			// 	allPlayers = this.state.allPlayers
+			// }
+			this.setState({ allPlayers, trainingData, formation: trainingData?.Formation || "4-3-3" })
 		});
 	}
 
-	handleEnabledChange = (event, id) => {
+	// This is using checkbox DEPRECATED
+	handleEnabledChange_v1 = (event, id) => {
 		let players = [...this.state.allPlayers];
 		players = players.map(p => {
 			if (p.IdPlayers === id) {
@@ -118,16 +138,31 @@ class Training extends React.Component {
 		this.setState({ allPlayers: players })
 	}
 
-	saveTraining = () => {
-		let players = JSON.stringify(this.state.allPlayers.filter(p => p.isChecked).map(p => {
-			let newPlayer = { id: p.IdPlayers, isChecked: p.isChecked, Position1: p.Position1, name: p.Name }
-			return newPlayer;
-		}));
-		let id = this.state?.trainingData?.Id;
-		let payloads = { id, date: this.state.trainingDate, location: '', hour: '', players, formation: this.state.formation }
-		handleSaveTraining(payloads, () => {
-
+	handleEnabledChange = (id) => {
+		let players = [...this.state.allPlayers];
+		players = players.map(p => {
+			if (p.IdPlayers === id) {
+				console.log(id, p)
+				p.isChecked = !p.isChecked;
+			}
+			return p;
 		});
+		this.setState({ allPlayers: players })
+	}
+
+	saveTraining = () => {
+		// let players = JSON.stringify(this.state.allPlayers.filter(p => p.isChecked).map(p => {
+		// 	let newPlayer = { id: p.IdPlayers, isChecked: p.isChecked, Position1: p.Position1, name: p.Name }
+		// 	return newPlayer;
+		// }));
+		console.log('Save training')
+		// let players = JSON.stringify(this.state.allPlayers.map(p => {
+		// 	let newPlayer = { id: p.IdPlayers, isChecked: p.isChecked, Position1: p.Position1, name: p.Name, status: p.status }
+		// 	return newPlayer;
+		// }));
+		let id = this.state?.trainingData?.Id;
+		let payloads = { id, date: this.state.trainingDate, location: '', hour: '', players: JSON.stringify(this.state.allPlayers), formation: this.state.formation }
+		handleSaveTraining(payloads, () => {});
 	}
 
 	getPlayersPosition = () => {
@@ -197,7 +232,6 @@ class Training extends React.Component {
 		this.setState({ allPlayers })
 	}
 
-
 	handleAddPlayerClick = () => {
 		this.setState(prevState => ({
 			showForm: !prevState.showForm
@@ -214,7 +248,7 @@ class Training extends React.Component {
 	handleSaveClick = () => {
 		const { playerName, playerPosition } = this.state;
 		// Execute some code with playerName and playerPosition
-		console.log(this.state);
+		// console.log(this.state);
 		let allPlayers = this.state.allPlayers;
 		allPlayers.push({
 			"IdPlayers": getMaxId(this.state.allPlayers) ,
@@ -235,6 +269,41 @@ class Training extends React.Component {
 		});
 	};
 
+
+
+	handleRightClick(e, playerId) {
+		e.preventDefault(); // Prevent the default context menu
+	
+		const { clientX, clientY } = e;
+	
+		// Update state with the clicked position and player
+		this.setState({
+		  activePlayerId: playerId,
+		  popupPosition: { top: clientY-180, left: clientX -  100 }, 
+		});
+	  }
+	
+	  closePopup() {
+		this.setState({ activePlayerId: null }); // Close the popup
+	  }
+
+	  setPlayerStatus = (Status)=>{
+		let {allPlayers, activePlayerId} = this.state
+		allPlayers.map(p=>{
+			if (p.IdPlayers === activePlayerId){
+				p.Status = Status;
+			}
+			return p;
+		})
+		this.setState({allPlayers})
+		console.log(activePlayerId, Status, allPlayers);
+		postData('/update-player', { playerId: activePlayerId, field: 'Status', newValue: Status }).then((result) => {
+			console.log('Result...', result);			
+		})
+		this.closePopup()
+	  }
+	
+
 	render() {
 		console.log('STATE', this.state);
 		var formattedDate = this.state.trainingDate && this.state.trainingDate.toISOString().substring(0, 10);
@@ -245,15 +314,15 @@ class Training extends React.Component {
 		};
 		// console.log(formattedDate);
 		let playersPositions = this.getPlayersPosition();
+
+		const { activePlayerId, popupPosition } = this.state;
+
 		return (
 			<div className="overview-layout">
 				<div className="header-row">
 					<h1>Training</h1>
 					<div className="right-box">
-						{/* <div className='sp-btn-group'>
-							<div className='btn-text'>Date: </div>
-							<input type="date" className="sp-btn" ref={this.dateInputRef} value={this.state?.gameDate?.toISOString().substring(0, 10)} id="gameDate" name="trainingDate" onChange={(event) => { this.setState({ gameDate: new Date(event.target.value) }, () => { this.getGame() }) }} />
-						</div> */}
+
 						<UIDateSelect
 							value={this.state?.trainingDate?.toISOString().substring(0, 10)}
 							id="trainingDate"
@@ -262,13 +331,6 @@ class Training extends React.Component {
 								this.setState({ trainingDate: new Date(event.target.value) }, () => { this.getTraining() })
 							}}
 						/>
-						{/* // <input type="date" className="sp-btn" value={this.state?.trainingDate?.toISOString().substring(0, 10)} id="trainingDate" name="trainingDate" onChange={(event) => {
-									this.setState({ trainingDate: new Date(event.target.value) }, () => { this.getTraining() })
-								}
-							}
-						/> */}
-
-						{/* <DatePickerButton onChange={  (date) => {console.log(date); this.setState({trainingDate: date}, ()=>{this.getTraining()})} }/> */}
 						<Button className='save-btn' onClick={() => { this.saveTraining() }} >Save</Button>
 						<Button className='save-btn' onClick={() => { this.copyText() }} >Copy</Button>
 					</div>
@@ -281,9 +343,51 @@ class Training extends React.Component {
 								this.state?.allPlayers &&
 								<div className='hide-checkbox'>
 									<ol>
+										{/* ################################################################### */}
 										{this.state.allPlayers.filter(p => { return p.TeamToPlay !== 'transferat' && !p.isChecked }).map(p => {
 											return <li key={`li1-${p.IdPlayers}`}>
-												<Checkbox key={`checkbox1-${p.IdPlayers}`} checked={p.isChecked} label={p.Name} onChange={(e) => this.handleEnabledChange(e, p.IdPlayers)} />
+												<span 
+													style={
+														p.Status === 'sick'
+														? { color: 'red' }
+														: p.Status === '!'
+														? { color: 'pink' }
+														: {}
+													}
+													className="label-player" 
+													key={`checkbox1-${p.IdPlayers}`} 
+													onClick={() => this.handleEnabledChange(p.IdPlayers)}
+													onContextMenu={(e) => this.handleRightClick(e, p.IdPlayers)} // Handle right click
+												>
+													{p.Name} 
+												</span>
+
+													{/* Popup */}
+													{activePlayerId !== null && (
+													<CSSTransition
+														in={true}
+														appear={true}
+														timeout={200}
+														classNames="popup"
+														unmountOnExit
+													>
+														<div	
+															className='status-popup'
+															style={{
+																top: popupPosition.top,
+																left: popupPosition.left,
+															}}
+														>
+																<Icon icon="cross" onClick={() => this.setState({activePlayerId:  null})} />
+																<h3>{this.state.allPlayers.find((p) => p.IdPlayers === activePlayerId)?.Name} state</h3>
+																<div className='icons-row'>
+																	<Icon icon="tick" onClick={() => this.setPlayerStatus('1')} />
+																	<Icon icon="plus"  onClick={() => this.setPlayerStatus('sick')} />
+																	<Icon icon="issue"  onClick={() => this.setPlayerStatus('!')} />
+																</div>
+														</div>
+													</CSSTransition>
+													)}
 											</li>
 										})}
 									</ol>
@@ -300,11 +404,14 @@ class Training extends React.Component {
 									<div className='hide-checkbox'>
 										{this.state.allPlayers.filter(p => { return p.TeamToPlay !== 'transferat' && p.isChecked && p.Position1 === '1' }).map((p, k) => {
 											return <div key={`li2-${p.IdPlayers}`}>
-												<div class='asdf'>
-													<Checkbox key={`checkbox2-${p.IdPlayers}`} label={k + 1 + '. ' + p.Name}
+												<div className='asdf'>
+													<span className="label-player" key={`checkbox1-${p.IdPlayers}`} onClick={() => this.handleEnabledChange(p.IdPlayers)}>
+														{k + 1 + '. ' + p.Name}
+													</span>
+													{/* <Checkbox key={`checkbox2-${p.IdPlayers}`} label={k + 1 + '. ' + p.Name}
 														onChange={(e) => this.handleEnabledChange(e, p.IdPlayers)}
 														checked={p.isChecked}
-													/>
+													/> */}
 												</div>
 											</div>
 										})}
@@ -313,11 +420,14 @@ class Training extends React.Component {
 									<div className='hide-checkbox'>
 										{this.state.allPlayers.filter(p => { return p.TeamToPlay !== 'transferat' && p.isChecked && p.Position1 !== '1' }).map((p, k) => {
 											return <div key={`l3-${p.IdPlayers}`}>
-												<div class='asdf'>
-													<Checkbox key={`checkbox3-${p.IdPlayers}`} label={k + 1 + '. ' + p.Name}
+												<div className='asdf'>
+													<span className="label-player" key={`checkbox1-${p.IdPlayers}`} onClick={() => this.handleEnabledChange(p.IdPlayers)}>
+														{k + 1 + '. ' + p.Name}
+													</span>
+													{/* <Checkbox key={`checkbox3-${p.IdPlayers}`} label={k + 1 + '. ' + p.Name}
 														onChange={(e) => this.handleEnabledChange(e, p.IdPlayers)}
 														checked={p.isChecked}
-													/>
+													/> */}
 												</div>
 											</div>
 										})}
@@ -367,24 +477,24 @@ class Training extends React.Component {
 								<React.Fragment>
 									<div className='defense row'>
 										<div className='RB player'>{playersPositions['2']?.map(p => {
-											return <Player data={p} setPlayerPosition={this.setPlayerPosition} />
+											return <Player key={'player-' + p.id}  data={p} setPlayerPosition={this.setPlayerPosition} />
 										})}
 										</div>
 										<div className='CRB player'>{playersPositions['4']?.map(p => {
-											return <Player data={p} setPlayerPosition={this.setPlayerPosition} />
+											return <Player key={'player-' + p.id}  data={p} setPlayerPosition={this.setPlayerPosition} />
 										})}</div>
-										<div className='CLB player'>{playersPositions['5']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
-										<div className='LB player'>{playersPositions['3']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+										<div className='CLB player'>{playersPositions['5']?.map(p => { return <Player key={'player-' + p.id} data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+										<div className='LB player'>{playersPositions['3']?.map(p => { return <Player key={'player-' + p.id}   data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
 									</div>
-									<div className='nr6 player'>{playersPositions['6']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
-									<div class="row INTER players-2">
-										<div className='inter-right player'>{playersPositions['10']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
-										<div className='inter-left player'>{playersPositions['8']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+									<div className='nr6 player'>{playersPositions['6']?.map(p => { return <Player key={'player-' + p.id}  data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+									<div className="row INTER players-2">
+										<div className='inter-right player'>{playersPositions['10']?.map(p => { return <Player key={'player-' + p.id}  data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+										<div className='inter-left player'>{playersPositions['8']?.map(p => { return <Player key='17' data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
 									</div>
 									<div className='row players-3'>
-										<div className='AR player'>{playersPositions['7']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
-										<div className='AC player'>{playersPositions['9']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
-										<div className='AL player'>{playersPositions['11']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+										<div className='AR player'>{playersPositions['7']?.map(p => { return <Player key={'player-' + p.id}  data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+										<div className='AC player'>{playersPositions['9']?.map(p => { return <Player key={'player-' + p.id}  data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+										<div className='AL player'>{playersPositions['11']?.map(p => { return <Player key={'player-' + p.id}  data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
 									</div>
 								</React.Fragment>
 							}
@@ -393,24 +503,24 @@ class Training extends React.Component {
 								this.state.formation === '4-2-3-1' &&
 								<React.Fragment>
 									<div className='defense row'>
-										<div className='RB player'>{playersPositions['2']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
-										<div className='CRB player'>{playersPositions['4']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
-										<div className='CLB player'>{playersPositions['5']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
-										<div className='LB player'>{playersPositions['3']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+										<div className='RB player' >{playersPositions['2']?.map(p => { return <Player key={'player-' + p.id}  data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+										<div className='CRB player'>{playersPositions['4']?.map(p => { return <Player key={'player-' + p.id}   data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+										<div className='CLB player'>{playersPositions['5']?.map(p => { return <Player key={'player-' + p.id}   data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+										<div className='LB player'>{playersPositions['3']?.map(p => { return <Player key={'player-' + p.id}  data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
 									</div>
 
-									<div class="row INTER players-2">
-										<div className='nr6 player'>{playersPositions['6']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
-										<div className='inter-left player'>{playersPositions['8']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+									<div className="row INTER players-2">
+										<div className='nr6 player'>{playersPositions['6']?.map(p => { return <Player key={'player-' + p.id}  data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+										<div className='inter-left player'>{playersPositions['8']?.map(p => { return <Player key={'player-' + p.id}   data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
 									</div>
-									<div class="row players-3">
-										<div className='AR player'>{playersPositions['7']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+									<div className="row players-3">
+										<div className='AR player'>{playersPositions['7']?.map(p => { return <Player data={p} key={'player-' + p.id}  setPlayerPosition={this.setPlayerPosition} /> })}</div>
 
-										<div className='inter-right player'>{playersPositions['10']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
-										<div className='AL player'>{playersPositions['11']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+										<div className='inter-right player'>{playersPositions['10']?.map(p => { return <Player key={'player-' + p.id}  data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+										<div className='AL player'>{playersPositions['11']?.map(p => { return <Player key={'player-' + p.id}  data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
 
 									</div>
-									<div className='AC player'>{playersPositions['9']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+									<div className='AC player'>{playersPositions['9']?.map(p => { return <Player key={'player-' + p.id}  data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
 
 
 								</React.Fragment>
@@ -419,22 +529,22 @@ class Training extends React.Component {
 								this.state.formation === '4-4-2' &&
 								<React.Fragment>
 									<div className='defense row'>
-										<div className='RB player'>{playersPositions['2']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
-										<div className='CRB player'>{playersPositions['4']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
-										<div className='CLB player'>{playersPositions['5']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
-										<div className='LB player'>{playersPositions['3']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+										<div className='RB player'>{playersPositions['2']?.map(p => { return <Player key={'player-' + p.id}  data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+										<div className='CRB player'>{playersPositions['4']?.map(p => { return <Player key={'player-' + p.id}  data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+										<div className='CLB player'>{playersPositions['5']?.map(p => { return <Player key={'player-' + p.id}  data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+										<div className='LB player'>{playersPositions['3']?.map(p => { return <Player key={'player-' + p.id}  data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
 									</div>
 
-									<div class="row  players-4">
-										<div className='AR player'>{playersPositions['7']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
-										<div className='nr6 player'>{playersPositions['6']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
-										<div className='inter-left player'>{playersPositions['8']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
-										<div className='inter-right player'>{playersPositions['10']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+									<div className="row  players-4">
+										<div className='AR player'>{playersPositions['7']?.map(p => { return <Player key={'player-' + p.id}  data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+										<div className='nr6 player'>{playersPositions['6']?.map(p => { return <Player key={'player-' + p.id}  data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+										<div className='inter-left player'>{playersPositions['8']?.map(p => { return <Player key={'player-' + p.id}  data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+										<div className='inter-right player'>{playersPositions['10']?.map(p => { return <Player key={'player-' + p.id}  data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
 									</div>
-									<div class="row players-2">
+									<div className="row players-2">
 
-										<div className='AL player'>{playersPositions['11']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
-										<div className='AC player'>{playersPositions['9']?.map(p => { return <Player data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+										<div className='AL player'>{playersPositions['11']?.map(p => { return <Player key={'player-' + p.id}  data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
+										<div className='AC player'>{playersPositions['9']?.map(p => { return <Player key={'player-' + p.id}  data={p} setPlayerPosition={this.setPlayerPosition} /> })}</div>
 
 									</div>
 
@@ -453,16 +563,15 @@ class Training extends React.Component {
 }
 
 const Player = ({ data, setPlayerPosition }) => {
-	// console.log(data);
 	return (
-		<div key={data.id}>
+		<div key={'player-'+data.id}>
 			<Select
 				className='field-select'
 				items={PLAYERS_POSITIONS}
 				itemRenderer={(item, { handleClick }) => {
 					return (
 						<MenuItem
-							key={item.key}
+							key={'menu-'+item.key}
 							text={item.value}
 							onClick={handleClick}
 						/>
