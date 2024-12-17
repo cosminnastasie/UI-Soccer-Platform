@@ -27,8 +27,18 @@ const PLAYERS_POSITIONS = [
 	{ key: '11', value: 11 },
 ]
 const namesArray = [
-
 ];
+
+const getStyle = (p) => {
+    if (p.Status === 'sick') return { color: 'red' };
+    if (p.Status === '!') return { color: 'pink' };
+    if (p.YearOfBirth === 2005) return { color: 'lightgrey' };
+    if (p.YearOfBirth === 2006) return { color: '#dcff25' };
+    if (p.YearOfBirth === 2007) return { color: 'rgb(73 250 17)' };
+    if (p.YearOfBirth === 2008) return { color: '#7bdb0b' };
+    if (p.YearOfBirth === 2009) return { color: '#4caf50' };
+    return {};
+};
 
 function getMaxId(objects) {
 	const threshold = 1000000;
@@ -347,13 +357,7 @@ class Training extends React.Component {
 										{this.state.allPlayers.filter(p => { return p.TeamToPlay !== 'transferat' && !p.isChecked }).map(p => {
 											return <li key={`li1-${p.IdPlayers}`}>
 												<span 
-													style={
-														p.Status === 'sick'
-														? { color: 'red' }
-														: p.Status === '!'
-														? { color: 'pink' }
-														: {}
-													}
+													style={getStyle(p)}
 													className="label-player" 
 													key={`checkbox1-${p.IdPlayers}`} 
 													onClick={() => this.handleEnabledChange(p.IdPlayers)}
