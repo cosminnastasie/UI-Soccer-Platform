@@ -1,39 +1,22 @@
+// App.js
 import './App.css';
 import './scss/style.scss';
 import "@blueprintjs/core/lib/css/blueprint.css";
-import React from 'react'
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from './elements/Layout'
-import Home from "./pages/Home";
-import Players from "./pages/Players";
-import Games from "./pages/Games";
-import Calendar from "./pages/Calendar";
-import Training from "./pages/Training";
-import Playground from "./pages/Playground";
-import GamesDetail from './pages/GamesDetail'
+import React from 'react';
+import { BrowserRouter } from "react-router-dom";
+import { StoredCodeProvider } from './StoredCodeContext';
+import AppRoutes from './AppRoutes'; // 👉 creezi această componentă nouă
 
 class App extends React.Component {
-  render() {
-    return (
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            {/* <Route index element={<Home />} /> */}
-            <Route index element={<Calendar />} />
-            <Route path="*" element={<div>404</div>} />
-            <Route path="/players" element={<Players />} />
-            <Route path="/games" element={<Games />} />
-            <Route path="/calendar" element={<Calendar />} />
-            <Route path="/training" element={<Training />} />
-            <Route path="/playground" element={<Playground />} />
-            
-            <Route path="/games-detail/:gameId" element={<GamesDetail />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    )
-  }
+	render() {
+		return (
+			<StoredCodeProvider>
+				<BrowserRouter>
+					<AppRoutes />
+				</BrowserRouter>
+			</StoredCodeProvider>
+		);
+	}
 }
-
 
 export default App;
