@@ -1,7 +1,5 @@
 @import "@blueprintjs/core/lib/css/blueprint.css";
 
-
-
 * {
     box-sizing: border-box;
 }
@@ -13,44 +11,41 @@
 
 .flex-center {
     display: flex;
-     align-items: center;
-     justify-content: center;
+    align-items: center;
+    justify-content: center;
 }
 
-.not-al-box{
-    opacity: .3;
+.not-al-box {
+    opacity: 0.3;
     cursor: not-allowed !important;
     pointer-events: none;
 }
 
-.font-style-10{
+.font-style-10 {
     font-size: 14px;
     margin: 4px 0;
 }
 
-.m-l-10{
+.m-l-10 {
     margin-left: 40px;
 }
 
-.flex-justify{
+.flex-justify {
     display: flex;
     justify-content: space-between;
 }
 
-
-
-
-.bp5-tabs.bp5-vertical > .bp5-tab-list .bp5-tab[aria-selected=true]{
-    color:darkorange;
+.bp5-tabs.bp5-vertical > .bp5-tab-list .bp5-tab[aria-selected="true"] {
+    color: darkorange;
 }
 
 // 2. Elements
 
 // Popups
 
-.bp5-dialog-header{
+.bp5-dialog-header {
     align-items: center;
-    border-bottom: 1px solid rgba(17,20,24,.15);
+    border-bottom: 1px solid rgba(17, 20, 24, 0.15);
     display: flex;
     gap: 20px;
     justify-content: space-between;
@@ -65,11 +60,11 @@
     z-index: 0;
     background: #008080 !important;
 
-    h6{
+    h6 {
         color: white;
     }
-    .bp5-dialog-close-button{
-        svg{
+    .bp5-dialog-close-button {
+        svg {
             fill: #fff !important;
             width: 24px;
             height: 24px !important;
@@ -80,7 +75,6 @@
 // Add event popup
 
 .soccer-game-dialog .bp3-dialog {
-    
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
@@ -94,20 +88,19 @@
     flex: 0 0 auto;
     min-height: 40px;
     padding: 20px 32px;
-    
 }
 
 .soccer-game-dialog .bp3-dialog-body {
     // background-color: #D0EFFF;
-    color: #4A5568; /* Dark Slate Gray for the text */
+    color: #4a5568; /* Dark Slate Gray for the text */
     padding: 40px;
     // background-image: url("../images/ball.jpg");
-    .bp5-input-group .bp5-input{
+    .bp5-input-group .bp5-input {
         box-shadow: none !important;
     }
 }
 
-.sp-select-btn{
+.sp-select-btn {
     background: #fff !important;
     box-shadow: none !important;
     border: none !important;
@@ -124,10 +117,8 @@
     border-bottom-right-radius: 8px;
     display: flex;
     justify-content: flex-end;
-    background-color: #D0EFFF;
+    background-color: #d0efff;
     border-top: 1px solid lightgrey;
-    
-
 
     .bp5-button {
         border-radius: 3px;
@@ -137,7 +128,7 @@
         box-shadow: none !important;
         outline: none !important;
 
-        &.bp5-button.bp5-intent-primary{
+        &.bp5-button.bp5-intent-primary {
             background-color: #fb6c3f;
             color: #fff;
         }
@@ -147,20 +138,20 @@
 .soccer-game-dialog .bp3-input {
     // background-color: transparent;
     border: none;
-    border-bottom: 2px solid #4A5568;
+    border-bottom: 2px solid #4a5568;
     margin-bottom: 15px;
 }
 
 .soccer-game-dialog .bp3-dialog-close-button {
-    color: #D0EFFF;
+    color: #d0efff;
 }
 
 // Info popup
 
-.info-dialog.bp5-dialog{
+.info-dialog.bp5-dialog {
     width: 650px;
     position: relative;
-    .bp5-dialog-header{
+    .bp5-dialog-header {
         background: #fff !important;
         height: 60px;
 
@@ -170,14 +161,13 @@
         .bp5-dialog-close-button svg {
             fill: #1c2127 !important;
         }
-
     }
 
-    .info-box-body{
+    .info-box-body {
         padding: 40px 40px 0 40px;
     }
-    
-    .info-box-no-info{
+
+    .info-box-no-info {
         display: flex;
         width: 100%;
         height: 100%;
@@ -191,17 +181,17 @@
         font-weight: 500;
     }
 
-    .event-header{
+    .event-header {
         font-weight: 600;
         font-size: 19px;
         display: flex;
         justify-content: space-between;
-        .bp5-icon-trash{
+        .bp5-icon-trash {
             cursor: pointer;
         }
     }
 
-    .game-teams-label{
+    .game-teams-label {
         // display: flex;
         // margin: 8px 0 6px 0;
         // font-size: 16px;
@@ -216,7 +206,7 @@
         justify-content: space-evenly;
     }
 
-    .footer-dialog-popup{
+    .footer-dialog-popup {
         position: absolute;
         bottom: 0;
         width: 100%;
@@ -225,10 +215,6 @@
         border-top: 1px solid lightgrey;
     }
 }
-
-
-
-
 
 // Dropdown icons
 .add-event-row {
@@ -253,42 +239,42 @@
         justify-content: center;
         flex-direction: column;
 
-        > div{
+        > div {
             color: midnightblue;
             font-size: 12px;
         }
 
-        svg{
+        svg {
             margin-top: 6px;
             width: 20px !important;
             height: 20px;
             fill: midnightblue !important;
         }
     }
-    
+
     .left-icon {
         left: 10px;
         bottom: -20px;
         transform: translateX(70px) translateY(-14px);
         opacity: 0;
         transition: all 0.3s ease;
-        &.show{
-            transform:  translateX(104px) translateY(0px);
+        &.show {
+            transform: translateX(104px) translateY(0px);
             opacity: 1;
         }
-    }    
+    }
     .right-icon {
         left: 10px;
         bottom: -20px;
         transform: translateX(50px) translateY(-14px);
         opacity: 0;
         transition: all 0.3s ease;
-        &.show{
-            transform:  translateX(38px) translateY(0px);
+        &.show {
+            transform: translateX(38px) translateY(0px);
             opacity: 1;
         }
     }
-    
+
     // .show {
     //     opacity: 1;
     //     transform: translateY(0px);
@@ -297,7 +283,7 @@
 
 // Fields
 
-.field-1{
+.field-1 {
     width: 100%;
     border: 1px solid white;
     padding: 35px 20px;
@@ -313,10 +299,10 @@
     align-items: center;
     color: floralwhite;
     font-weight: 500;
-    .player{
+    .player {
         white-space: nowrap;
     }
-    > div{
+    > div {
         width: 100%;
         display: flex;
         flex-direction: column;
@@ -324,20 +310,19 @@
         justify-content: center;
         // margin-bottom: 34px;
 
-        &.row{
+        &.row {
             flex-direction: row;
 
-            >div{
+            > div {
                 display: flex;
                 flex-direction: column;
                 justify-content: space-evenly;
                 width: 25%;
                 align-items: center;
-
             }
         }
     }
-    .player{
+    .player {
         color: #ffffff;
         font-family: "Arial", sans-serif;
         font-size: 13px;
@@ -349,34 +334,33 @@
         width: 194px;
         /* height: 112px; */
         min-height: 100px;
-   }
-    .gk{
+    }
+    .gk {
         display: flex;
         flex-direction: column;
         width: 100%;
     }
-    .defense{
+    .defense {
         margin-top: 32px;
         display: flex;
         flex-direction: row;
         width: 100%;
         // margin-top: 38px;
     }
-    .AT{
+    .AT {
         justify-content: space-between;
     }
-    .INTER{
+    .INTER {
         justify-content: space-evenly;
     }
 }
 
-.inter-right{
+.inter-right {
     margin-right: 32px;
 }
-.inter-left{
+.inter-left {
     margin-left: 32px;
 }
-
 
 // 3. Layouts
 
@@ -395,29 +379,29 @@
     background-position: top;
 }
 
-.content{
+.content {
     height: calc(100vh - 166px);
     // background-color: darkcyan;
     color: floralwhite;
 
-    .no-data{
+    .no-data {
         height: 100%;
         width: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
         flex-direction: column;
-        font-size:16px;
+        font-size: 16px;
 
-        .plus-icon{
+        .plus-icon {
             font-weight: 700;
             font-size: 58px;
-            cursor:pointer;
+            cursor: pointer;
         }
     }
 }
 
-.bp5-tabs.bp5-vertical > .bp5-tab-list .bp5-tab{
+.bp5-tabs.bp5-vertical > .bp5-tab-list .bp5-tab {
     color: floralwhite;
 }
 
@@ -438,7 +422,7 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    ul{
+    ul {
         margin-left: -12px;
         list-style-type: none;
         display: flex;
@@ -449,15 +433,14 @@
                 color: #fff;
             }
         }
-        &:last-child{
+        &:last-child {
             margin-right: 40px;
-            button{
+            button {
                 color: #fff;
                 background: #0c0e13 !important;
             }
         }
     }
-   
 }
 
 .App-header {
@@ -474,14 +457,14 @@
     color: white;
 }
 
-.header-row{
+.header-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    .right-box{
+    .right-box {
         display: flex;
-        > *{
+        > * {
             margin-left: 12px;
         }
     }
@@ -494,28 +477,25 @@
     // }
 }
 
-.sp-btn-group{
-    //     // border: 1px solid orangered;
-    display: flex;
-    align-items: center;
-    background: #5D8AA8;
-    color: white;
+.sp-btn-group {
+    background: #212936;
+    // color: white;
     border-radius: 5px;
     padding: 2px 17px;
     font-size: 14px;
-    
-    .sp-btn{
+
+    .sp-btn {
         color: white;
-    padding: 10px 0 9px 10px;
-    background: #5D8AA8;
-    border: none;
-    position: relative;
+        padding: 10px 0 9px 10px;
+        background: #5d8aa8;
+        border: none !important;
+        position: relative;
 
         // margin-left: 12px;
-        &:hover{
+        &:hover {
             outline: none;
-        }        
-        &:focus{
+        }
+        &:focus {
             outline: none;
         }
     }
@@ -524,16 +504,16 @@
     input::-webkit-calendar-picker-indicator {
         color: white;
         opacity: 0;
-        width:100%;
-        height:100%;
-        position:absolute;
-        top:0;
-        left:0;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
     }
 }
 
-.sp-btn{
-    background: #5D8AA8 !important;
+.sp-btn {
+    background: #5d8aa8 !important;
     color: white !important;
     border-radius: 5px !important;
     padding: 13px 24px !important;
@@ -593,7 +573,7 @@
     }
 
     .calendar-day {
-        background: #4A5568;
+        background: #4a5568;
         border: 1px solid #d8e1e8;
         border-radius: 3px;
         padding: 6px;
@@ -604,13 +584,13 @@
         flex-direction: column;
         transition: transform 0.15s ease-in-out;
 
-        .card-header{
+        .card-header {
             font-size: 10px;
             font-weight: 600;
             margin-bottom: 4px;
             display: flex;
             justify-content: space-between;
-            .date-top-right{
+            .date-top-right {
                 font-weight: 500;
                 // font-size: 13px;
             }
@@ -621,8 +601,7 @@
             margin-top: 0;
             margin-bottom: 0px;
             margin-right: 4px;
-            color: #88C0D0;
-            
+            color: #88c0d0;
         }
         .card-description {
             font-size: 10px;
@@ -633,59 +612,59 @@
             align-items: center;
         }
 
-        &.highlight-w-day{
-            background-color: #3B4252;
+        &.highlight-w-day {
+            background-color: #3b4252;
             .bp3-heading {
                 color: #fb6c3f;
             }
             .card-description {
-                color: #E5E9F0 ;
+                color: #e5e9f0;
             }
             // .date-top-right{
-            //     color: #fb6c3f; 
+            //     color: #fb6c3f;
             // }
         }
 
-        &.highlight-today{
-            background-color: #D0EFFF !important;
-            .bp3-heading{
+        &.highlight-today {
+            background-color: #d0efff !important;
+            .bp3-heading {
                 color: orangered !important;
             }
-            .date-top-right{
-                color: #003366 !important; 
+            .date-top-right {
+                color: #003366 !important;
             }
             .card-description {
-                color: #003366 !important; 
+                color: #003366 !important;
             }
         }
 
-        &.highlight-game{
+        &.highlight-game {
             background-color: #008080; /* Teal Background */
             .bp3-heading {
-                color: floralwhite /* Dark Gray for headings */
+                color: floralwhite; /* Dark Gray for headings */
             }
             .card-description {
-                color: #FFD700; /* Gold for descriptions */
+                color: #ffd700; /* Gold for descriptions */
             }
-            .date-top-right{
-                color: floralwhite; 
+            .date-top-right {
+                color: floralwhite;
             }
         }
 
-        &.highlight-training{
-            background-color: #5D8AA8;
+        &.highlight-training {
+            background-color: #5d8aa8;
             .bp3-heading {
-                color: #A5D6A7 /* Dark Gray for headings */
+                color: #a5d6a7; /* Dark Gray for headings */
             }
             .card-description {
-                color: #E0E0E0; /* Gold for descriptions */
+                color: #e0e0e0; /* Gold for descriptions */
             }
-            .date-top-right{
-                color: floralwhite; 
+            .date-top-right {
+                color: floralwhite;
             }
         }
     }
-    svg[data-icon]{
+    svg[data-icon] {
         fill: #fff;
         height: 20px;
         width: 20px;
@@ -697,28 +676,26 @@
     transform: scale(1.05);
 }
 
-.cols-3{
+.cols-3 {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    padding-bottom:120px;
-
+    padding-bottom: 120px;
 }
 
-.players-lists{
+.players-lists {
     width: 100%;
-    display:flex;
-
+    display: flex;
 }
 
-.selected-players-list{
+.selected-players-list {
     width: 50%;
 }
-.all-players-list{
-    width:50%;
+.all-players-list {
+    width: 50%;
 }
 
-.mono-font{
+.mono-font {
     color: floralwhite;
     font-weight: 500;
     font-family: monospace;
@@ -726,63 +703,61 @@
 }
 
 // Games overview
-.hide-checkbox{
+.hide-checkbox {
     .bp5-control input:checked ~ .bp5-control-indicator {
         width: 0px;
         display: none;
     }
-
 }
 .game-card {
-    &.highlight-card{
-        background-color: #5D8AA8;
-        h5{
-            color: #A5D6A7;
+    &.highlight-card {
+        background-color: #5d8aa8;
+        h5 {
+            color: #a5d6a7;
         }
     }
-    .bp5-icon{
+    .bp5-icon {
         cursor: pointer;
         padding: 4px 4px;
     }
-
 }
 
-.edit-dialog{
-    .bp5-button{
+.edit-dialog {
+    .bp5-button {
         margin-left: 0 !important;
         margin-right: 0 !important;
     }
 }
 
-.sub-description{
+.sub-description {
     display: flex;
     justify-content: space-between;
-    > div{
-        margin-right:12px;
+    > div {
+        margin-right: 12px;
     }
 }
 
-.all-players-list{
-    .bp5-control bp5-checkbox{
+.all-players-list {
+    .bp5-control bp5-checkbox {
         padding-left: 10px;
     }
     .hide-checkbox {
-        input[type="checkbox"]{
+        input[type="checkbox"] {
             display: none;
         }
-        .bp5-control-indicator{
+        .bp5-control-indicator {
             display: none;
         }
     }
 }
 
-.label-player{
+.label-player {
     cursor: pointer;
     font-size: 15px;
     line-height: 24px;
 }
 
-.status-popup{
+.status-popup {
     min-width: 300px !important;
     min-height: 150px;
     display: flex;
@@ -796,8 +771,8 @@
     border-radius: 5px;
     z-index: 1000;
     transform-origin: center bottom;
-    h3{
-        color: #88C0D0;
+    h3 {
+        color: #88c0d0;
         font-size: 20px;
         padding: 10px 10px 16px 16px;
         margin-top: 14px;
@@ -806,51 +781,49 @@
         display: flex;
         justify-content: flex-start;
         border-bottom: 1px solid lightgrey;
-        background: #4A5568;
-
-    }   
-    .bp5-icon-cross{
+        background: #4a5568;
+    }
+    .bp5-icon-cross {
         color: white;
         position: absolute;
         right: 12px;
         top: 13px;
         cursor: pointer;
-        svg{
+        svg {
             width: 22px;
             height: 22px;
         }
     }
-    .icons-row{
+    .icons-row {
         padding: 4px 12px 20px 12px;
         display: flex;
         align-items: center;
-        justify-content: space-evenly;;
+        justify-content: space-evenly;
         height: 105px;
-        .bp5-icon{
+        .bp5-icon {
             width: 25%;
             width: 25%;
             align-items: center;
             display: flex;
             justify-content: center;
         }
-        .bp5-icon-plus{
+        .bp5-icon-plus {
             color: red;
         }
-        .bp5-icon-tick{
+        .bp5-icon-tick {
             color: green;
         }
-        .bp5-icon-issue{
+        .bp5-icon-issue {
             color: purple;
         }
-        svg{
+        svg {
             width: 30px;
             height: 30px;
         }
-        
-    } 
+    }
 }
 
-.game-rez-block{
+.game-rez-block {
     width: 100%;
     margin: 0;
     padding-bottom: 15px;
@@ -859,21 +832,21 @@
     flex-direction: column;
     justify-content: center;
 }
-.game-score-block{
+.game-score-block {
     display: flex;
     justify-content: space-around;
-    > div{
+    > div {
         font-size: 16px;
         font-weight: 700;
         color: orangered;
     }
 }
 
-.edit-icon{
+.edit-icon {
     cursor: pointer;
     margin-right: 8px;
 }
-.asdf{
+.asdf {
     padding-left: 6px;
     display: flex;
     .bp5-control:not(.bp5-align-right) {
@@ -885,11 +858,11 @@
     display: flex;
     align-items: baseline;
 
-    .sp-select{
-
-        .sp-select-btn{
+    .sp-select {
+        .sp-select-btn {
             background-color: transparent !important;
-            color: #fff;        }
+            color: #fff;
+        }
     }
 }
 
@@ -898,58 +871,132 @@
 //     top: 10px;
 // }
 
-.players-2{
+.players-2 {
     justify-content: center !important;
-    > div{
+    > div {
         width: 30%;
-        }
+    }
 }
 
-.field-btn{
+.field-btn {
     background: transparent !important;
     color: #fff !important;
-    .bp5-icon{
+    .bp5-icon {
         display: none;
     }
 }
 
-.form-box{
+.form-box {
     padding: 10px 0;
-    > div{
+    > div {
         margin: 20px 0;
         display: flex;
-        > label{
+        > label {
             width: 50px;
         }
     }
 }
 
+// Top buttons on Training page
 
-// .field-1[data="all-players-4-2-3-1"]{
-//     > div.row > div{
-//         width: 28%;
-//     }
-//     .GK{
-//         order: 1;
-//     }
-//     .defense{
-//         margin-top: 91px;
-//         order: 2;
-//     }
-//     // .nr6{
-//     //     order: 4;
-//     // }
-//     .INTER{
-//         order: 3;
-//         justify-content: center;
-//     }
-//     .AT{
-//         order: 5;
-//     }
-//     .AR, .AL{
-//         top: -100px;
-//         position: relative;    }
-// }
+.right-box {
+    display: flex !important;
+    align-items: center !important;
+    // gap: 1rem !important;
+    padding: 1rem !important;
+    background-color: #000 !important;
+    color: #e0e0e0 !important;
+}
+
+/* UIDateSelect group */
+.mc-btn-group {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+}
+
+/* Text label */
+.mc-btn-group .btn-text {
+    font-weight: 500 !important;
+    color: #9ca3af !important;
+    font-size: 0.95rem !important;
+}
+
+/* Matches .save-btn styling */
+.mc-btn-group {
+    display: flex !important;
+    align-items: center !important;
+    padding: 4px 1rem !important;
+    height: 30px;
+    background-color: #1e293b !important;
+    border: 1px solid #334155 !important;
+    color: #dbeafe !important;
+    border-radius: 6px !important;
+    font-size: 0.95rem !important;
+    cursor: pointer !important;
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease !important;
+}
+
+/* Label inside the "button" */
+.mc-btn-group .btn-text {
+    margin-right: 0.5rem !important;
+    font-weight: 500 !important;
+    color: inherit !important;
+}
+
+/* Input styled like part of the button */
+.mc-btn-group input[type="date"] {
+    background-color: transparent !important;
+    border: none !important;
+    color: inherit !important;
+    font-size: inherit !important;
+    outline: none !important;
+    cursor: pointer !important;
+    padding: 0 !important;
+    width: auto !important;
+}
+
+/* Optional: tighten width */
+.mc-btn-group input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+/* Blueprint-style Save / Copy buttons */
+.save-btn {
+    background-color: #1e293b !important;
+    border: 1px solid #334155 !important;
+    color: #dbeafe !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 6px !important;
+    font-size: 0.95rem !important;
+    cursor: pointer !important;
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease !important;
+}
+
+.mc-btn-group:hover {
+    background-color: #10b981 !important; /* emerald green */
+    border-color: #10b981 !important;
+    color: #fff !important;
+}
+
+.save-btn:hover {
+    background-color: #10b981 !important; /* emerald green */
+    border-color: #10b981 !important;
+    color: #fff !important;
+}
+
+.save-btn:active {
+    background-color: #059669 !important; /* darker emerald */
+    border-color: #059669 !important;
+}
+
+
+
+// #####################################
 
 // 9. Media queries
 
@@ -959,8 +1006,22 @@
         background: black;
     }
 
-    .sm-hide{
+    .sm-hide {
         display: none;
+    }
+
+    .header-row .right-box {
+        margin-left: auto;
+        padding-left: 0 !important;
+        margin-bottom: 20px;
+        .ms-btn-group,
+        > button {
+            border-radius: 3px !important;
+            padding: 0px 20px !important;
+            font-size: 12px !important;
+            min-width: unset;
+            width: 56px;
+        }
     }
 
     .menu-sidebar {
@@ -978,77 +1039,78 @@
         }
     }
 
-    #fields{
+    #fields {
         max-width: 100%;
         min-width: calc(100vw - 63px);
-        .field-btn{
+        .field-btn {
             font-size: 9px;
         }
-        .players-3{
-            >div{
+        .players-3 {
+            > div {
                 width: 30% !important;
             }
         }
-        .players-2{
-            >div{
+        .players-2 {
+            > div {
                 width: 40% !important;
             }
         }
     }
 
-    .players-lists{
-        label{
+    .players-lists {
+        label {
             font-size: 12px;
         }
     }
 
     .calendar-container {
         margin-top: 80px;
-        h1{
+        h1 {
             margin-left: 32px;
         }
-        .month-navigation{
+        .month-navigation {
             justify-content: center;
         }
-        .calendar-grid{
+        .calendar-grid {
             gap: 3px;
         }
 
-        .calendar-day{
+        .calendar-day {
             padding: 6px 4px;
-            .card-header{
+            .card-header {
                 font-size: 9px;
 
                 flex-direction: column;
-                .bp3-heading{
+                .bp3-heading {
                     order: 2;
                     margin-top: 4px;
                 }
-                .date-top-right{
+                .date-top-right {
                     order: 1;
                 }
             }
             .card-description {
                 font-size: 8px;
-           }
+            }
         }
-    } 
-    .overview-layout.ss-full-width{
+    }
+    .overview-layout.ss-full-width {
         padding: 4px;
     }
-    .header-row{
-        h1{
-            font-size:20px;
+    .header-row {
+        h1 {
+            font-size: 20px;
         }
-        .right-box{
-            .sp-btn-group{
+        .right-box {
+            .sp-btn-group {
                 padding: 2px 0px;
-                .btn-text{
+                .btn-text {
                     display: none;
                 }
-                .sp-btn{
+                .sp-btn {
                     padding: 4px 0px 4px 12px !important;
-                    font-family: -apple-system, "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Open Sans", "Helvetica Neue", "blueprint-icons-16", sans-serif;
+                    font-family: -apple-system, "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+                        "Cantarell", "Open Sans", "Helvetica Neue", "blueprint-icons-16", sans-serif;
                 }
             }
         }
@@ -1059,38 +1121,33 @@
         padding: 0;
         width: calc(100% + 44px) !important;
         margin: 20px 0;
-        .player{
+        .player {
             white-space: nowrap;
             font-size: 8px;
             font-weight: 500;
         }
     }
 
-    .all-players-list{
+    .all-players-list {
         white-space: nowrap;
-        ol{
+        ol {
             padding-left: 5px;
         }
     }
-    .selected-players-list{
-        
+    .selected-players-list {
         white-space: nowrap;
     }
-    .bp5-control:not(.bp5-align-right){
+    .bp5-control:not(.bp5-align-right) {
         padding-left: 6px !important;
     }
 
-    .fjkhkhkg{
+    .fjkhkhkg {
         margin-left: 0;
         margin-top: 22px;
         padding-left: 20px;
         overflow: hidden;
     }
-
-    
-
 }
-
 
 @media only screen and (min-width: 768px) {
     .overview-layout {
@@ -1098,26 +1155,23 @@
         // background-image: url("../images/bg1.jpg");
     }
 
-    .save-btn{
+    .save-btn {
         padding: 6px 32px !important;
     }
 }
 
-@media only screen and (min-width: 768px) and (max-width: 1024px){
-
-    
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
 }
 
 @media only screen and (min-width: 1024px) {
-    .cols-3{
+    .cols-3 {
         flex-wrap: nowrap;
     }
-    #fields{
+    #fields {
         width: 50% !important;
-
     }
 
-    .players-lists{
+    .players-lists {
         width: 50%;
     }
 
@@ -1128,48 +1182,47 @@
     .calendar-container {
         max-width: 75%;
         margin: 20px auto;
-    
+
         .month-navigation {
             display: flex;
             align-items: center;
             padding: 10px;
             justify-content: center;
         }
-    
+
         .calendar-grid {
             grid-template-columns: repeat(7, 1fr);
             gap: 10px;
             padding-top: 10px;
-            .calendar-grid-item{
+            .calendar-grid-item {
                 width: 100%;
             }
         }
-    
+
         .calendar-day {
             padding: 20px;
             min-height: 100px;
-            height:100%;
+            height: 100%;
             max-width: calc((100vw - 40px) / 7);
-    
-            .card-header{
+
+            .card-header {
                 font-size: 14px;
                 font-weight: 600;
                 margin-bottom: 8px;
-                .date-top-right{
+                .date-top-right {
                     width: 40px;
                     font-size: 12px;
                     white-space: nowrap;
-                    padding-top: 1px; 
-                    font-weight: 500;       
+                    padding-top: 1px;
+                    font-weight: 500;
                 }
             }
-    
+
             .bp3-heading {
                 margin-top: 0;
                 margin-bottom: 0px;
                 margin-right: 4px;
-                width:90%;
-                
+                width: 90%;
             }
             .card-description {
                 font-size: 12px;
@@ -1178,24 +1231,21 @@
                 justify-content: flex-start;
                 align-items: center;
             }
-            
         }
-        svg[data-icon]{
+        svg[data-icon] {
             fill: #fff;
             height: 20px;
             width: 20px;
             display: flex;
         }
     }
-    
+
     .calendar-day:hover {
         transform: scale(1.05);
     }
 
-    .info-dialog.bp5-dialog{
+    .info-dialog.bp5-dialog {
         width: 650px;
         min-height: 400px;
     }
-
 }
-
