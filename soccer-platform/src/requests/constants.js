@@ -13,3 +13,6 @@ export const HOURS = ['09:00', '09:30', '10:00', '11:00', '12:00', '12:15', '12:
 
 
 export const TEAM = 'Unirea Bascov';
+
+export const PIN = '5588'
+export const SECURITY_PIN = 'copa del mondo'

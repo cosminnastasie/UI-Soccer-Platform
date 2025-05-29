@@ -31,7 +31,7 @@ const namesArray = [
 
 const getStyle = (p) => {
     if (p.Status === 'sick') return { color: 'red' };
-    if (p.Status === '!') return { color: 'pink' };
+    if (p.Status === '!') return { color: '#e1d8da', textDecoration: 'line-through'};
     if (p.YearOfBirth === 2005) return { color: 'lightgrey' };
     if (p.YearOfBirth === 2006) return { color: '#dcff25' };
     if (p.YearOfBirth === 2007) return { color: 'rgb(73 250 17)' };
@@ -172,7 +172,9 @@ class Training extends React.Component {
 		// }));
 		let id = this.state?.trainingData?.Id;
 		let payloads = { id, date: this.state.trainingDate, location: '', hour: '', players: JSON.stringify(this.state.allPlayers), formation: this.state.formation }
-		handleSaveTraining(payloads, () => {});
+		handleSaveTraining(payloads, () => {
+			this.getTraining()
+		});
 	}
 
 	getPlayersPosition = () => {

@@ -1,6 +1,9 @@
 // requests.js
 import {URLS} from './constants';
 
+
+const storedCode = localStorage.getItem('key-write');
+
 var getRequestOptions = {
     method: 'GET',
     redirect: 'follow'
@@ -24,22 +27,28 @@ export async function getData(path) {
 export async function postData(path, data) {
     var url = URLS.apiUrl + path;
 
-    try {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+    if (storedCode === 'copa del mondo') {
+        // Add your custom logic here
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return await response.json();
+        } catch (e) {
+            console.error("Error posting data: ", e);
+            throw e; // rethrow to allow the caller to handle it
         }
-        return await response.json();
-    } catch (e) {
-        console.error("Error posting data: ", e);
-        throw e; // rethrow to allow the caller to handle it
+    } else {
+        alert('You dont  have the rights for this action')
     }
+    
 }
 // application/json
 export async function putData(path, data) {
@@ -53,17 +62,19 @@ export async function putData(path, data) {
       body: JSON.stringify(data),
       redirect: 'follow'
     };
-
-    try {
-        const response = await fetch(url, requestOptions);
-        console.log(response);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+    if (storedCode === 'copa del mondo') {
+        try {
+            const response = await fetch(url, requestOptions);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return await response.json();
+        } catch (e) {
+            console.error("Error putting data: ", e);
+            throw e; // rethrow to allow the caller to handle it
         }
-        return await response.json();
-    } catch (e) {
-        console.error("Error putting data: ", e);
-        throw e; // rethrow to allow the caller to handle it
+    }else{
+        alert('You dont  have the rights for this action')
     }
 }
 

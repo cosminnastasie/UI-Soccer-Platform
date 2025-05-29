@@ -26,6 +26,7 @@ class App extends React.Component {
             <Route path="/calendar" element={<Calendar />} />
             <Route path="/training" element={<Training />} />
             <Route path="/playground" element={<Playground />} />
+            
             <Route path="/games-detail/:gameId" element={<GamesDetail />} />
           </Route>
         </Routes>
