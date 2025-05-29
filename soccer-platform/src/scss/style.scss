@@ -284,15 +284,17 @@
 // Fields
 
 .field-1 {
-    width: 100%;
+    height: 60vw;
+    width: calc(40vw);
     border: 1px solid white;
     padding: 35px 20px;
     background: green;
+    // background-image: url("../images/soccer-field_p.jpg");
     background-image: url("../images/fieldSvg.svg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: top;
-    height: 77vh;
+    // height: 77vh;
     margin: 50px 0 0 0px;
     display: flex;
     flex-direction: column;
@@ -994,8 +996,6 @@
     border-color: #059669 !important;
 }
 
-
-
 // #####################################
 
 // 9. Media queries
@@ -1119,13 +1119,26 @@
         margin-left: -30px !important;
         margin-right: -30px !important;
         padding: 0;
-        width: calc(100% + 44px) !important;
-        margin: 20px 0;
+        height: 135vw;
+        width: 90vw;
+        margin: 20px -11px !important;
         .player {
             white-space: nowrap;
             font-size: 8px;
             font-weight: 500;
+
+            width: 22% !important;
+            margin: 5px 2px;
+            min-height: 68px;
+            button{
+                    padding: 0px 10px;
+                     min-height: 21px;
+            }
         }
+ 
+    }
+    #fields .players-2 > div{
+        width: 22% !important;
     }
 
     .all-players-list {
