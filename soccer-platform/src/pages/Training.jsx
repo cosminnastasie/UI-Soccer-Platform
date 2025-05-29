@@ -328,7 +328,7 @@ class Training extends React.Component {
 		return (
 			<div className="overview-layout">
 				<div className="header-row">
-					<h1>Training</h1>
+					<h1 className='sm-hide'>Training</h1>
 					<div className="right-box">
 
 						<UIDateSelect
