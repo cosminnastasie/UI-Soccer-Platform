@@ -9,9 +9,9 @@ import UIDateSelect from './../components/UIDateSelect'
 import UISelect from '../components/UISelect';
 import { CSSTransition } from "react-transition-group"; // For the show effect
 import {Icon} from "@blueprintjs/core";
-
 import { MenuItem } from "@blueprintjs/core";
 import { Select, PopoverPosition } from "@blueprintjs/select";
+import { StoredCodeContext } from './../StoredCodeContext';
 
 
 const PLAYERS_POSITIONS = [
@@ -309,9 +309,11 @@ class Training extends React.Component {
 		this.closePopup()
 	  }
 	
+	static contextType = StoredCodeContext;
 
 	render() {
-		// console.log('STATE', this.state);
+		const storedCode = this.context;
+		console.log('Training storedCode =', storedCode);
 		var formattedDate = this.state.trainingDate && this.state.trainingDate.toISOString().substring(0, 10);
 		const { showForm, playerName, playerPosition } = this.state;
 		const formStyle = {
@@ -337,7 +339,7 @@ class Training extends React.Component {
 								this.setState({ trainingDate: new Date(event.target.value) }, () => { this.getTraining() })
 							}}
 						/>
-						<Button className='save-btn' onClick={() => { this.saveTraining() }} >Save</Button>
+						{storedCode && <Button className='save-btn' onClick={() => { this.saveTraining() }} >Save</Button>}
 						<Button className='save-btn' onClick={() => { this.copyText() }} >Copy</Button>
 					</div>
 				</div>

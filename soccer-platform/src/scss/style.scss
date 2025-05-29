@@ -976,7 +976,7 @@
 
     #fields{
         max-width: 100%;
-
+        min-width: calc(100vw - 63px);
         .field-btn{
             font-size: 9px;
         }
