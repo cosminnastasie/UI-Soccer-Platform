@@ -26,28 +26,24 @@ export async function getData(path) {
 
 export async function postData(path, data) {
     var url = URLS.apiUrl + path;
-
-    if (storedCode === 'copa del mondo') {
-        // Add your custom logic here
-        try {
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return await response.json();
-        } catch (e) {
-            console.error("Error posting data: ", e);
-            throw e; // rethrow to allow the caller to handle it
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
-    } else {
-        alert('You dont  have the rights for this action')
+        return await response.json();
+    } catch (e) {
+        console.error("Error posting data: ", e);
+        throw e; // rethrow to allow the caller to handle it
     }
+    
+
     
 }
 // application/json
@@ -62,7 +58,8 @@ export async function putData(path, data) {
       body: JSON.stringify(data),
       redirect: 'follow'
     };
-    if (storedCode === 'copa del mondo') {
+    console.log('PUT action. storedCode = ', storedCode)
+    if (storedCode === 'copadelmondo') {
         try {
             const response = await fetch(url, requestOptions);
             if (!response.ok) {

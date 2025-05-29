@@ -5,7 +5,7 @@ import "ag-grid-community/styles/ag-theme-quartz.css"; // Theme
 import { getData, postData } from './../requests/requests';
 import { URLS } from './../requests/constants'
 import { Checkbox } from '@blueprintjs/core';
-
+import PlayersCss from './Players.css' 
 class Players extends React.Component {
 	constructor(props) {
 		super(props)
@@ -25,7 +25,6 @@ class Players extends React.Component {
 	}
 
 	playerInfoChange = (params) => {
-		console.log(params);
 		let selectedPlayer = this.state.players.filter(p => p.IdPlayers === params.data.IdPlayers);
 		let selectedPlayerId = selectedPlayer[0].IdPlayers;
 		let field = params.colDef.field;
@@ -36,8 +35,6 @@ class Players extends React.Component {
 
 		postData('/update-player', { playerId: selectedPlayerId, field, newValue }).then((result) => {
 			console.log('Result...', result);
-
-			
 		})
 
 
@@ -59,15 +56,15 @@ class Players extends React.Component {
 
 	gridOptions = {
 		getRowStyle: (params) => {
-			if (parseInt(params.data.YearOfBirth) === 2005) {
+			if (parseInt(params.data.YearOfBirth) === 2006) {
 				return { color: 'darkcyan' };
-			} else if (parseInt(params.data.YearOfBirth) === 2006) {
+			} else if (parseInt(params.data.YearOfBirth) === 2007) {
 				return { color: 'deepskyblue' };
-			} else if (parseInt(params.data.YearOfBirth) > 2006) {
+			} else if (parseInt(params.data.YearOfBirth) >= 2008) {
 				return { color: 'mediumaquamarine' };
 
 			} else {
-				return { color: 'floralwhite' };
+				return { color: 'black' };
 			}
 		}
 	};
@@ -99,7 +96,7 @@ class Players extends React.Component {
 				<h1>Players</h1>
 				{
 					this.state?.players &&
-					<div className="grid-height">
+					<div className="grid-height ag-theme-quartz ">
 						<AgGridReact rowData={this.state?.players} columnDefs={colDefs} gridOptions={this.gridOptions} />
 					</div>
 				}

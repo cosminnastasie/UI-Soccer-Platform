@@ -31,12 +31,12 @@ const namesArray = [
 
 const getStyle = (p) => {
     if (p.Status === 'sick') return { color: 'red' };
-    if (p.Status === '!') return { color: '#e1d8da', textDecoration: 'line-through'};
-    if (p.YearOfBirth === 2005) return { color: 'lightgrey' };
-    if (p.YearOfBirth === 2006) return { color: '#dcff25' };
-    if (p.YearOfBirth === 2007) return { color: 'rgb(73 250 17)' };
-    if (p.YearOfBirth === 2008) return { color: '#7bdb0b' };
-    if (p.YearOfBirth === 2009) return { color: '#4caf50' };
+    if (p.Status === '!') return { color: 'orange', textDecoration: 'line-through'};
+    if (p.YearOfBirth === 2006) return { color: 'lightgrey' };
+    if (p.YearOfBirth === 2007) return { color: '#dcff25' };
+    if (p.YearOfBirth === 2008) return { color: 'rgb(73 250 17)' };
+    if (p.YearOfBirth === 2009) return { color: '#7bdb0b' };
+    // if (p.YearOfBirth === 2009) return { color: '#4caf50' };
     return {};
 };
 
@@ -96,7 +96,7 @@ class Training extends React.Component {
 	getTraining = () => {
 		postData(URLS.trainings, { date: formatDate(this.state.trainingDate) }).then((result) => {
 			let trainingData = result?.results[0] || {};
-			console.log(trainingData, isEmptyObject(trainingData))
+			// console.log(trainingData, isEmptyObject(trainingData))
 			let allPlayers = !isEmptyObject(trainingData)? (trainingData?.Players? JSON.parse(trainingData?.Players): this.state.defaultPlayers) : this.state.defaultPlayers
 
 
@@ -161,15 +161,9 @@ class Training extends React.Component {
 	}
 
 	saveTraining = () => {
-		// let players = JSON.stringify(this.state.allPlayers.filter(p => p.isChecked).map(p => {
-		// 	let newPlayer = { id: p.IdPlayers, isChecked: p.isChecked, Position1: p.Position1, name: p.Name }
-		// 	return newPlayer;
-		// }));
-		console.log('Save training')
-		// let players = JSON.stringify(this.state.allPlayers.map(p => {
-		// 	let newPlayer = { id: p.IdPlayers, isChecked: p.isChecked, Position1: p.Position1, name: p.Name, status: p.status }
-		// 	return newPlayer;
-		// }));
+
+		// console.log('Save training', storedCode)
+		
 		let id = this.state?.trainingData?.Id;
 		let payloads = { id, date: this.state.trainingDate, location: '', hour: '', players: JSON.stringify(this.state.allPlayers), formation: this.state.formation }
 		handleSaveTraining(payloads, () => {
@@ -317,7 +311,7 @@ class Training extends React.Component {
 	
 
 	render() {
-		console.log('STATE', this.state);
+		// console.log('STATE', this.state);
 		var formattedDate = this.state.trainingDate && this.state.trainingDate.toISOString().substring(0, 10);
 		const { showForm, playerName, playerPosition } = this.state;
 		const formStyle = {

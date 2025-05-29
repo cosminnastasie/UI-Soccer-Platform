@@ -1,0 +1,5 @@
+.ag-theme-quartz .ag-row:hover {
+    background-color: rgba(0, 128, 255, 0.1); /* Light blue background on hover */
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
