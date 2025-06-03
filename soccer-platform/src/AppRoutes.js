@@ -5,6 +5,7 @@ import Layout from './elements/Layout';
 import Players from "./pages/Players";
 import Calendar from "./pages/Calendar";
 import Training from "./pages/Training";
+import TrainingFormation from "./pages/TrainingFormation";
 import Security from "./pages/Security";
 import { StoredCodeContext } from './StoredCodeContext';
 
@@ -26,6 +27,8 @@ class AppRoutes extends React.Component {
 					)}
 					<Route path="/calendar" element={<Calendar />} />
 					<Route path="/training" element={<Training />} />
+					<Route path="/TrainingFormation" element={<TrainingFormation />} />
+					
 				</Route>
 			</Routes>
 		);

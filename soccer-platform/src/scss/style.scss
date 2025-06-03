@@ -1,4 +1,5 @@
 @import "@blueprintjs/core/lib/css/blueprint.css";
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap");
 
 * {
     box-sizing: border-box;
@@ -289,7 +290,6 @@
     border: 1px solid white;
     padding: 35px 20px;
     background: green;
-    // background-image: url("../images/soccer-field_p.jpg");
     background-image: url("../images/fieldSvg.svg");
     background-repeat: no-repeat;
     background-size: cover;
@@ -996,6 +996,258 @@
     border-color: #059669 !important;
 }
 
+// ##################### New training
+
+$field-bg: green;
+$sidebar-width: 25%;
+$sidebar-collapsed: 32px;
+$sidebar-bg: #f5f8fa;
+$arrea-color: 2px solid #00b3f087;
+
+.field-container {
+    //   font-family: 'Orbitron', sans-serif;
+    font-family: monospace;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    height: calc(100vh);
+    margin: 0;
+    background: url("./../images/bg3.jpg") center/cover no-repeat;
+    overflow: hidden;
+    z-index: 2;
+    display: flex;
+    padding-top: 80px;
+
+    &.sidebar-open {
+        .all-players-col {
+            width: $sidebar-width;
+        }
+    }
+
+    &.sidebar-closed {
+        .all-players-col {
+            width: $sidebar-collapsed;
+        }
+        .border-right {
+            display: none;
+        }
+
+        .training-players-col {
+            width: calc(100% - #{$sidebar-collapsed});
+        }
+    }
+
+    .border-right {
+        border-right: 2px solid #00b3f0;
+        height: 60vh;
+        top: 15vh;
+        position: absolute;
+        right: 0;
+    }
+
+    .all-players-col {
+        position: relative;
+        transition: width 0.3s ease;
+
+        .toggle-button {
+            position: absolute;
+            top: 10px;
+            right: -16px;
+            z-index: 10;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+        }
+    }
+
+    .training-players-col {
+        padding: 50px;
+        position: relative;
+        flex-grow: 1;
+        transition: width 0.3s ease;
+    }
+
+    .player-box {
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        background: url("./../images/tshirt.png") center/cover no-repeat;
+        &.blue-shirt {
+            background: url("./../images/tshirt-b.png") center/cover no-repeat;
+        }
+        &.orange-shirt {
+            background: url("./../images/tshirt-p.png") center/cover no-repeat;
+        }
+        color: #000;
+        font-size: 14px;
+        text-align: center;
+        padding-top: 5px;
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        span {
+            font-size: 14px;
+            font-weight: normal;
+            margin-top: 2px;
+            position: absolute;
+            bottom: -18px;
+            color: #fff;
+            white-space: nowrap;
+        }
+    }
+}
+
+.sidebar-content {
+    height: calc(100% - 100px);
+    margin: 50px 0 50px 0px;
+    position: relative;
+    padding: 50px;
+    background: linear-gradient(to bottom, rgba(15, 16, 28, 0.35), rgba(22, 45, 70, 0.85));
+    overflow-y: scroll;
+}
+
+.sidebar-content::-webkit-scrollbar {
+    width: 2px;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb {
+    background-color: hwb(195 1% 26% / 0.753);
+    border-radius: 4px;
+}
+
+.sidebar-content::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+}
+
+.f-2 {
+    color: #00b3f0;
+}
+.f-5 {
+    color: deeppink;
+    transform: scale(1.05);
+    font-weight: 700;
+}
+.f-3 {
+    margin-right: 20px;
+}
+
+.l1-list-item {
+    color: #fff;
+    line-height: 1.8;
+    cursor: pointer;
+    font-family: Arial;
+    font-size: 12px;
+    &:hover > .f-4 {
+        transform: scale(1.05);
+        z-index: 1;
+        position: relative;
+        display: inline-flex;
+    }
+}
+
+.blue-overlay-box {
+    z-index: 1;
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    width: calc(100% - 100px);
+    height: calc(100% - 100px);
+    background: linear-gradient(to bottom, rgba(15, 16, 28, 0.35), rgba(22, 45, 70, 0.85));
+    border-top: 4px solid rgba(102, 104, 109, 0.2705882353);
+}
+
+.field-wrapper {
+    position: relative;
+    height: 100%;
+}
+
+.team-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+}
+
+.header-row-l2 {
+    display: flex;
+    .f-3 {
+        color: #00b3f0;
+        font-size: 15px;
+        width: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        max-height: 84px;
+        margin-right: 60px;
+    }
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap");
+
+.team-title {
+    font-size: 38px;
+    font-weight: 500;
+    color: #00b3f0;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    position: relative;
+    margin-bottom: 20px;
+    line-height: 84px;
+    padding-left: 76px;
+    width: 100%;
+}
+
+.field-width {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.goal-arrea {
+    position: absolute;
+    bottom: 0;
+    right: calc(50% - 135px);
+    border-top: 2px solid rgba(0, 179, 240, 0.5294117647);
+    border-left: 2px solid rgba(0, 179, 240, 0.5294117647);
+    border-right: 2px solid rgba(0, 179, 240, 0.5294117647);
+    width: 280px;
+    height: 80px;
+}
+.penalty-arrea {
+    position: absolute;
+    bottom: 0;
+    right: calc(50% - 250px);
+    border-top: $arrea-color;
+    border-left: $arrea-color;
+    border-right: $arrea-color;
+    width: 500px;
+    height: 210px;
+}
+
+.center-arrea {
+    position: absolute;
+    top: 80px;
+    border-top: 2px solid rgba(0, 179, 240, 0.5294117647);
+    width: calc(100% - 120px);
+    margin-left: 60px;
+    margin-right: 60px;
+    height: 113px;
+    overflow: hidden;
+
+    .center-circle {
+        width: 230px;
+        height: 210px;
+        border: 2px solid rgba(0, 179, 240, 0.5294117647);
+        border-radius: 50%;
+        top: -100px;
+        position: absolute;
+        left: calc(50% - 118px);
+    }
+}
+
 // #####################################
 
 // 9. Media queries
@@ -1004,6 +1256,11 @@
     .overview-layout {
         // background-image: url("../images/bg1.jpg");
         background: black;
+    }
+
+    .field-1 {
+        height: 60vw;
+        width: calc(40vw);
     }
 
     .sm-hide {
@@ -1119,26 +1376,13 @@
         margin-left: -30px !important;
         margin-right: -30px !important;
         padding: 0;
-        height: 135vw;
-        width: 90vw;
-        margin: 20px -11px !important;
+        width: calc(100% + 44px) !important;
+        margin: 20px 0;
         .player {
             white-space: nowrap;
             font-size: 8px;
             font-weight: 500;
-
-            width: 22% !important;
-            margin: 5px 2px;
-            min-height: 68px;
-            button{
-                    padding: 0px 10px;
-                     min-height: 21px;
-            }
         }
- 
-    }
-    #fields .players-2 > div{
-        width: 22% !important;
     }
 
     .all-players-list {
