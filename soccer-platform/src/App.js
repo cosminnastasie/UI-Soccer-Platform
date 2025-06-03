@@ -15,6 +15,7 @@ class App extends React.Component {
 					<AppRoutes />
 				</BrowserRouter>
 			</StoredCodeProvider>
+			
 		);
 	}
 }
